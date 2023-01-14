@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html,
+  body,
+  #theme-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body,
+  #theme-container {
+    flex-grow: 1;
+  }
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--p)) hsl(var(--b3));

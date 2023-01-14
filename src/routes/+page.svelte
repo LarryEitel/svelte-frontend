@@ -1,2 +1,27 @@
-<h1 class="text-red-500">Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { Button } from '$lib/components';
+	import { _ } from 'svelte-i18n';
+</script>
+
+<img
+	alt=""
+	class="z-[5] pointer-events-none fixed w-full h-full"
+	height={100}
+	src="./assets/home-gradient.svg"
+	width={100}
+/>
+<div class="flex w-full flex-col justify-center  mx-auto text-secondary/80">
+	<div class="flex flex-col justify-center items-center text-center rounded-sm">
+		<h1 class="text-5xl font-semibold leading-none sm:text-6xl">
+			{$_('pages.home.title-1')} <br />
+			<span class="text-accent dark:brightness-75">{$_('pages.home.title-2')}</span>
+		</h1>
+		<p class="my-8 sm:mb-12 text-xl max-w-4xl">{$_('pages.home.subtitle')}</p>
+		<div class="flex gap-2 flex-col sm:flex-row">
+			<Button to={'/signup'}>{$_('pages.home.signup-now')}</Button>
+			<Button variants={{ intent: 'secondary' }} to={'/activities'}>
+				{$_('pages.home.browse-activities')}
+			</Button>
+		</div>
+	</div>
+</div>
