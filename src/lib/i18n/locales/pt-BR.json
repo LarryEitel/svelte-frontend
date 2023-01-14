@@ -9,7 +9,8 @@
     "dismiss": "Dispensar",
     "search": "Pesquisar atividades",
     "sign-in": "Entrar",
-    "sign-up": "Cadastrar"
+    "sign-up": "Cadastrar",
+    "email": "E-mail"
   },
   "pages": {
     "home": {
@@ -18,6 +19,20 @@
       "subtitle": "Se inscreva em eventos, palestras, workshops, projetos e programas de extensão ofertados pela sua universidade. Crie e submeta propostas de novas ações de extensão diretamente pela plataforma.",
       "signup-now": "Crie sua conta agora!",
       "browse-activities": "Descubra atividades"
+    }
+  },
+  "dialog": {
+    "signin": {
+      "title": "Entre ou crie uma conta",
+      "description": "Por favor, escolha um provedor para entrar ou digite seu e-mail e senha.",
+      "or-continue": "ou continue com",
+      "email-placeholder": "Seu endereço de e-mail",
+      "email-label": "Endereço de e-mail"
+    }
+  },
+  "validations": {
+    "email": {
+      "invalid": "O endereço de e-mail parece inválido"
     }
   }
 }

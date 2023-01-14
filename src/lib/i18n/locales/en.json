@@ -9,7 +9,8 @@
     "dismiss": "Dismiss",
     "search": "Search for activities",
     "sign-in": "Sign in",
-    "sign-up": "Sign up"
+    "sign-up": "Sign up",
+    "email": "E-mail"
   },
   "pages": {
     "home": {
@@ -18,6 +19,20 @@
       "subtitle": "Sign up for events, lectures, workshops, outreach projects and programs offered by your university. Create and submit proposals for new extension actions directly through the platform.",
       "signup-now": "Create your account now!",
       "browse-activities": "Browse activities"
+    }
+  },
+  "dialog": {
+    "signin": {
+      "title": "Log in or create an account",
+      "description": "Please choose a provider to sign in, or enter your email and password.",
+      "or-continue": "or continue with",
+      "email-placeholder": "Your e-mail address",
+      "email-label": "E-mail address"
+    }
+  },
+  "validations": {
+    "email": {
+      "invalid": "Email address looks invalid"
     }
   }
 }

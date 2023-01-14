@@ -1,17 +1,21 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Avatar, Button, Menu } from '$lib/components';
+	import { Avatar, Button, Dialog, Menu } from '$lib/components';
 	import { _ } from 'svelte-i18n';
 	import IconHouse from '~icons/ph/house-fill';
 	import IconBackspace from '~icons/ph/backspace';
 	import IconSignOut from '~icons/ph/sign-out';
+	import SigninDialog from './_SigninDialog.svelte';
 
 	let searchQuery: string = $page.url.searchParams.get('q') || '';
 	let searchInput: HTMLInputElement | null = null;
 	let isSearchFocused: boolean = false;
 	let debounceTimer: any;
 	let user = false;
+
+	// SignIn Dialog
+	let isOpen = false;
 
 	function handleSearchReset() {
 		searchQuery = '';
@@ -75,65 +79,6 @@
 		class={`${isSearchFocused ? 'hidden md:flex' : ''} flex-none gap-2`}
 		data-testid="nav-right-div"
 	>
-		<div class="block">
-			<!-- <Dropdown
-        items={
-          user
-            ? [
-                {
-                  key: 'logged-in-account',
-                  onSelect: () => void router.push(AccountRoute),
-                  element: (
-                    <>
-                      <User size={24} weight="bold" />
-                      {t('profile')}
-                    </>
-                  ),
-                },
-                {
-                  key: 'logged-in-signout',
-                  onSelect: () => signOut(),
-                  element: (
-                    <>
-                      <SignOut size={24} weight="bold" />
-                      {t('sign-out')}
-                    </>
-                  ),
-                },
-              ]
-            : [
-                {
-                  key: 'logged-out-signin',
-                  onSelect: () => void router.push(SigninRoute),
-                  element: (
-                    <>
-                      <SignIn size={24} weight="bold" />
-                      {t('sign-in')}
-                    </>
-                  ),
-                },
-                {
-                  key: 'logged-out-signup',
-                  onSelect: () => void router.push(SignupRoute),
-                  element: (
-                    <>
-                      <UserPlus size={24} weight="bold" />
-                      {t('sign-up')}
-                    </>
-                  ),
-                },
-              ]
-        }
-      >
-        <button
-          class="btn btn-ghost text-accent hover:bg-accent/20 btn-circle"
-          data-testid="sm-nav-menu-trigger"
-          type="button"
-        >
-          <List size={28} weight="bold" />
-        </button>
-      </Dropdown> -->
-		</div>
 		<div class="hidden sm:flex items-center gap-2">
 			{#if user}
 				<Button data-testid="nav-account-btn" variants={{ intent: 'no-style' }} to="/account">
@@ -143,7 +88,8 @@
 					<IconSignOut width="28px" height="28px" />
 				</Button>
 			{:else}
-				<Button variants={{ animated: true }} to="/signup">
+				<SigninDialog bind:isOpen />
+				<Button on:click={() => (isOpen = true)} variants={{ animated: true }}>
 					{$_('terms.sign-in')}
 				</Button>
 			{/if}
