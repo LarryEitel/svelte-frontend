@@ -11,8 +11,8 @@
 
 <img
 	alt=""
-	class="rounded-full"
+	class="rounded-sm"
 	height={sizes[size]}
-	src={`https://avatars.dicebear.com/api/initials/${name}.svg`}
+	src="https://avatars.dicebear.com/api/initials/{name}.svg?fontWeight=800"
 	width={sizes[size]}
 />

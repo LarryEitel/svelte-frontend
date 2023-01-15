@@ -1,21 +1,20 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Avatar, Button, Dialog, Menu } from '$lib/components';
+	import { Avatar, Button, Menu } from '$lib/components';
 	import { _ } from 'svelte-i18n';
 	import IconHouse from '~icons/ph/house-fill';
 	import IconBackspace from '~icons/ph/backspace';
 	import IconSignOut from '~icons/ph/sign-out';
-	import SigninDialog from './_SigninDialog.svelte';
+	import IconUser from '~icons/ph/user';
+	import { authDialog } from '$lib/stores';
+	import { signOut } from '@auth/sveltekit/client';
 
 	let searchQuery: string = $page.url.searchParams.get('q') || '';
 	let searchInput: HTMLInputElement | null = null;
 	let isSearchFocused: boolean = false;
 	let debounceTimer: any;
 	let user = false;
-
-	// SignIn Dialog
-	let isOpen = false;
 
 	function handleSearchReset() {
 		searchQuery = '';
@@ -29,8 +28,6 @@
 			goto(`/activities?q=${searchQuery}`);
 		}, 250);
 	};
-
-	function handleSignOut() {}
 </script>
 
 <div
@@ -80,17 +77,28 @@
 		data-testid="nav-right-div"
 	>
 		<div class="hidden sm:flex items-center gap-2">
-			{#if user}
-				<Button data-testid="nav-account-btn" variants={{ intent: 'no-style' }} to="/account">
-					<Avatar name={'user.name'} size="sm" />
-				</Button>
-				<Button class="btn-circle" variants={{ intent: 'ghost' }} on:click={handleSignOut}>
-					<IconSignOut width="28px" height="28px" />
-				</Button>
+			{#if $page.data.session?.user}
+				<div class="bg-base-200 p-2 flex items-center rounded-md gap-2">
+					<Avatar name={$page.data.session.user?.name} size="sm" />
+					<Menu
+						trigger={$page.data.session.user.name}
+						items={[
+							{ text: $_('terms.my-account'), icon: IconUser, to: '/account' },
+							{
+								text: $_('terms.signout'),
+								classes: 'text-error',
+								action: signOut,
+								icon: IconSignOut
+							}
+						]}
+					/>
+				</div>
 			{:else}
-				<SigninDialog bind:isOpen />
-				<Button on:click={() => (isOpen = true)} variants={{ animated: true }}>
-					{$_('terms.sign-in')}
+				<Button
+					on:click={() => authDialog.update(() => ({ isOpen: true }))}
+					variants={{ animated: true }}
+				>
+					{$_('terms.signin')}
 				</Button>
 			{/if}
 		</div>

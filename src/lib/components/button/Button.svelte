@@ -12,7 +12,7 @@
 	const isExternal = to ? !/^(\/|#)(.*)/g.test(to) : false;
 
 	const buttonStyles = cva(
-		'transition-all h-[2.5rem] min-h-[2.5rem] inline-flex items-center gap-1',
+		'transition-all h-[2.5rem] min-h-[2.5rem] inline-flex items-center gap-1 text-sm',
 		{
 			variants: {
 				intent: {
@@ -26,6 +26,11 @@
 					'no-style': 'hover:scale-95',
 					danger: 'btn btn-error hover:bg-red-300 hover:border-red-300',
 					provider: 'btn normal-case hover:opacity-70 text-[0.95rem] w-full'
+				},
+				case: {
+					normal: 'normal-case',
+					upper: 'uppercase',
+					lower: 'lowercase'
 				},
 				provider: {
 					google: 'bg-white text-black hover:bg-white'
@@ -43,7 +48,8 @@
 					true: 'hover:-translate-y-0.5'
 				},
 				size: {
-					sm: 'btn-sm'
+					sm: 'btn-sm h-[1.5rem] min-h-[1.5rem] px-2',
+					full: 'w-full'
 				}
 			},
 			defaultVariants: {
