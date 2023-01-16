@@ -13,7 +13,8 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"prisma:studio": "doppler run -- prisma studio",
 		"prisma:push": "doppler run -- prisma db push",
-		"prisma:reset": "doppler run -- prisma db push --force-reset && prisma db seed"
+		"prisma:reset": "doppler run -- prisma db push --force-reset && prisma db seed",
+		"prepare": "prisma generate"
 	},
 	"devDependencies": {
 		"@auth/core": "^0.2.5",
