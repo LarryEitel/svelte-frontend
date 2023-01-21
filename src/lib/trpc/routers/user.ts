@@ -4,13 +4,14 @@ import { DateTime } from 'luxon';
 import { authProcedure, router } from '$lib/trpc/t';
 import { z } from 'zod';
 import { userUpdateSchema } from '$lib/schemas';
+import { hashPassword } from '$lib/server/utils';
 
 export const userRouter = router({
 	deleteMyAccount: authProcedure.mutation(async ({ ctx }) => {
 		const { id } = ctx.session.user;
 		await prisma.user.delete({ where: { id } });
 	}),
-	getUpdatableProperties: authProcedure.query(async ({ ctx }) => {
+	getAccountData: authProcedure.query(async ({ ctx }) => {
 		const { id } = ctx.session.user;
 
 		const user = await prisma.user.findUniqueOrThrow({
@@ -19,13 +20,37 @@ export const userRouter = router({
 				name: true,
 				email: true,
 				phone: true,
-				image: true
+				image: true,
+				password: true,
+				Verification: {
+					select: {
+						type: true,
+						isVerified: true,
+						liftCooldownAt: true
+					}
+				}
 			}
 		});
+		const isPasswordEmpty = user.password === null;
+		// @ts-expect-error - we don't want to send the password to the client
+		delete user.password;
 
-		return user;
+		return {
+			...user,
+			isPasswordEmpty
+		};
 	}),
-	setUpdatableProperties: authProcedure.input(userUpdateSchema).mutation(async ({ ctx, input }) => {
+	updatePassword: authProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+		const { id } = ctx.session.user;
+
+		await prisma.user.update({
+			where: { id },
+			data: {
+				password: await hashPassword(input)
+			}
+		});
+	}),
+	updateUser: authProcedure.input(userUpdateSchema).mutation(async ({ ctx, input }) => {
 		const { id } = ctx.session.user;
 
 		const user = await prisma.user.update({
