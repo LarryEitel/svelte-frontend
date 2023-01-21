@@ -24,10 +24,11 @@
 	);
 </script>
 
-<label class="flex flex-col items-start gap-1 w-full" for={id}>
+<label class={`flex flex-col items-start gap-1 w-full ${$$props.class}`} for={id}>
 	<span class="label-text">{label}</span>
 	<div class="w-full flex gap-2">
 		<input
+			maxlength="255"
 			class={inputStyles({ intent: !!error ? 'error' : variants.intent })}
 			data-testid={`${id}-input`}
 			{id}

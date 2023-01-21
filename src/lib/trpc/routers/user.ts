@@ -3,28 +3,38 @@ import { TRPCError } from '@trpc/server';
 import { DateTime } from 'luxon';
 import { authProcedure, router } from '$lib/trpc/t';
 import { z } from 'zod';
+import { userUpdateSchema } from '$lib/schemas';
 
 export const userRouter = router({
-	update: authProcedure
-		.input(
-			z.object({
-				name: z.string().min(3, 'validations.string.min').max(255, 'validations.string.max'),
-				email: z.string().email('validations.email.invalid'),
-				phone: z.string().min(10, 'validations.string.min').max(10, 'validations.string.max')
-			})
-		)
-		.mutation(async ({ ctx, input }) => {
-			const { id } = ctx.session.user;
+	deleteMyAccount: authProcedure.mutation(async ({ ctx }) => {
+		const { id } = ctx.session.user;
+		await prisma.user.delete({ where: { id } });
+	}),
+	getUpdatableProperties: authProcedure.query(async ({ ctx }) => {
+		const { id } = ctx.session.user;
 
-			const user = await prisma.user.update({
-				where: { id },
-				data: {
-					...input
-				}
-			});
+		const user = await prisma.user.findUniqueOrThrow({
+			where: { id },
+			select: {
+				name: true,
+				email: true,
+				phone: true,
+				image: true
+			}
+		});
 
-			return user;
-		}),
+		return user;
+	}),
+	setUpdatableProperties: authProcedure.input(userUpdateSchema).mutation(async ({ ctx, input }) => {
+		const { id } = ctx.session.user;
+
+		const user = await prisma.user.update({
+			where: { id },
+			data: input
+		});
+
+		return user;
+	}),
 	createVerification: authProcedure
 		.input(
 			z.object({
