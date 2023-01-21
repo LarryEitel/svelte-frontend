@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, Menu } from '$lib/components';
 	import { _, locale } from 'svelte-i18n';
-	import IconSnow from '~icons/ion/snow';
+	import IconSun from '~icons/ph/sun-fill';
 	import IconMoon from '~icons/ph/moon-fill';
 	import IconCircleHalf from '~icons/ph/circle-half-fill';
 	import IconBrazil from '~icons/twemoji/flag-brazil';
@@ -28,7 +28,7 @@
 </script>
 
 <footer
-	class={`flex z-[5] flex-col bg-base-100 bg-opacity-40 text-base-content rounded-t-2xl mt-20`}
+	class={`flex z-[5] flex-col bg-base-200 bg-opacity-40 text-base-content rounded-t-2xl mt-20`}
 >
 	<div class="flex items-start justify-around flex-col sm:flex-row gap-12 p-8">
 		<div class="flex flex-col justify-between h-36">
@@ -84,8 +84,8 @@
 			<Menu
 				trigger={$_('terms.theme')}
 				items={[
-					{ text: $_('terms.winter'), icon: IconSnow, action: () => handleSaveTheme('winter') },
-					{ text: $_('terms.night'), icon: IconMoon, action: () => handleSaveTheme('night') },
+					{ text: $_('terms.light'), icon: IconSun, action: () => handleSaveTheme('winter') },
+					{ text: $_('terms.dark'), icon: IconMoon, action: () => handleSaveTheme('night') },
 					{ text: $_('terms.system'), icon: IconCircleHalf }
 				]}
 			/>
