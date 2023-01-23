@@ -1,10 +1,11 @@
 import { prisma } from '$lib/server/singletons';
 import { TRPCError } from '@trpc/server';
 import { DateTime } from 'luxon';
-import { authProcedure, router } from '$lib/trpc/t';
+import { authProcedure, publicProcedure, router } from '$lib/trpc/t';
 import { z } from 'zod';
-import { userUpdateSchema } from '$lib/schemas';
-import { hashPassword } from '$lib/server/utils';
+import { createUserSchema, passwordUpdateSchema, userUpdateSchema } from '$lib/schemas';
+import { comparePassword, hashPassword } from '$lib/server/utils';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 export const userRouter = router({
 	deleteMyAccount: authProcedure.mutation(async ({ ctx }) => {
@@ -40,7 +41,7 @@ export const userRouter = router({
 			isPasswordEmpty
 		};
 	}),
-	updatePassword: authProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+	createPassword: authProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
 		const { id } = ctx.session.user;
 
 		await prisma.user.update({
@@ -49,6 +50,57 @@ export const userRouter = router({
 				password: await hashPassword(input)
 			}
 		});
+	}),
+	updatePassword: authProcedure.input(passwordUpdateSchema).mutation(async ({ ctx, input }) => {
+		const { id } = ctx.session.user;
+
+		const { password: hashedPwd } = await prisma.user.findUniqueOrThrow({
+			where: { id },
+			select: {
+				password: true
+			}
+		});
+
+		if (!hashedPwd) {
+			throw new TRPCError({
+				message: 'exceptions.users.password.no-password',
+				code: 'BAD_REQUEST'
+			});
+		}
+
+		if (!(await comparePassword(input.currentPwd, hashedPwd))) {
+			throw new TRPCError({
+				message: 'exceptions.users.password.incorrect-current',
+				code: 'BAD_REQUEST'
+			});
+		}
+
+		await prisma.user.update({
+			where: { id },
+			data: {
+				password: await hashPassword(input.newPwd)
+			}
+		});
+	}),
+	createUser: publicProcedure.input(createUserSchema).mutation(async ({ input }) => {
+		try {
+			await prisma.user.create({
+				data: {
+					...input,
+					password: await hashPassword(input.password)
+				}
+			});
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError) {
+				// P2002 is the error code for unique constraint violations
+				if (error.code === 'P2002') {
+					throw new TRPCError({
+						message: 'exceptions.users.email-already-in-use',
+						code: 'BAD_REQUEST'
+					});
+				}
+			}
+		}
 	}),
 	updateUser: authProcedure.input(userUpdateSchema).mutation(async ({ ctx, input }) => {
 		const { id } = ctx.session.user;
