@@ -1,11 +1,18 @@
-import { prisma } from '$lib/server/singletons';
+import {
+	createUserSchema,
+	passwordResetSchema,
+	passwordUpdateSchema,
+	userUpdateSchema
+} from '$lib/schemas';
+import { prisma, sendInBlueApi } from '$lib/server/singletons';
+import { comparePassword, hashPassword } from '$lib/server/utils';
+import { buildEmail } from '$lib/server/utils/email.utils';
+import { authProcedure, publicProcedure, router } from '$lib/trpc/t';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { TRPCError } from '@trpc/server';
 import { DateTime } from 'luxon';
-import { authProcedure, publicProcedure, router } from '$lib/trpc/t';
 import { z } from 'zod';
-import { createUserSchema, passwordUpdateSchema, userUpdateSchema } from '$lib/schemas';
-import { comparePassword, hashPassword } from '$lib/server/utils';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { appRouter } from '../router';
 
 export const userRouter = router({
 	deleteMyAccount: authProcedure.mutation(async ({ ctx }) => {
@@ -112,16 +119,21 @@ export const userRouter = router({
 
 		return user;
 	}),
-	createVerification: authProcedure
+	createVerification: publicProcedure
 		.input(
 			z.object({
-				type: z.enum(['VALIDATE_EMAIL', 'VALIDATE_PHONE', 'RESET_PASSWORD'])
+				type: z.enum(['VALIDATE_EMAIL', 'VALIDATE_PHONE', 'RESET_PASSWORD']),
+				email: z.string().email('validations.email.invalid')
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
+			const user = await prisma.user.findUniqueOrThrow({
+				where: { email: input.email }
+			});
+
 			const verifications = await prisma.verification.findMany({
 				where: {
-					userId: ctx.session.user.id,
+					userId: user.id,
 					type: input.type
 				}
 			});
@@ -142,7 +154,7 @@ export const userRouter = router({
 			if (verifications.length > 0 && expired.length > 0) {
 				await prisma.verification.deleteMany({
 					where: {
-						userId: ctx.session.user.id,
+						userId: user.id,
 						type: input.type,
 						isVerified: false,
 						createdAt: {
@@ -180,7 +192,7 @@ export const userRouter = router({
 
 			const verification = await prisma.verification.create({
 				data: {
-					userId: ctx.session.user.id,
+					userId: user.id,
 					type: input.type,
 					liftCooldownAt
 				}
@@ -199,5 +211,87 @@ export const userRouter = router({
 		});
 
 		return user?.Verification;
-	})
+	}),
+	resetPassword: publicProcedure.input(passwordResetSchema).query(async ({ input }) => {
+		const verification = await prisma.verification.findUnique({
+			where: { id: input.token }
+		});
+
+		if (!verification) {
+			throw new TRPCError({
+				message: `v-password.invalid-token`,
+				code: 'BAD_REQUEST'
+			});
+		}
+
+		if (verification.isVerified) {
+			throw new TRPCError({
+				message: `exceptions.users.verifications.reset_password.already-verified`,
+				code: 'BAD_REQUEST'
+			});
+		}
+
+		const tokenCreationAndNowDiff = DateTime.fromJSDate(verification.createdAt).diffNow('minutes');
+
+		if (tokenCreationAndNowDiff.minutes <= -15) {
+			throw new TRPCError({
+				message: `exceptions.users.verifications.expired-token`,
+				code: 'BAD_REQUEST'
+			});
+		}
+
+		await prisma.user.update({
+			where: { id: verification.userId },
+			data: {
+				password: await hashPassword(input.newPwd)
+			}
+		});
+
+		await prisma.verification.delete({
+			where: {
+				id: verification.id
+			}
+		});
+	}),
+	sendForgotPasswordEmail: publicProcedure
+		.input(
+			z.object({
+				email: z.string().email('validations.email.invalid'),
+				url: z.string()
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			const user = await prisma.user.findUnique({
+				where: { email: input.email }
+			});
+
+			if (user) {
+				const verification = await appRouter.createCaller(ctx).user.createVerification({
+					type: 'RESET_PASSWORD',
+					email: input.email
+				});
+
+				const builtEmail = buildEmail({
+					type: 'reset_password',
+					toEmail: input.email,
+					recipientName: user.name,
+					url: input.url,
+					token: verification.id
+				});
+
+				sendInBlueApi.sendTransacEmail(builtEmail).then(
+					function (data: any) {
+						console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+					},
+					function (error: any) {
+						throw new TRPCError({
+							message: `exceptions.users.error-sending-email`,
+							code: 'BAD_REQUEST'
+						});
+					}
+				);
+			} else {
+				return;
+			}
+		})
 });

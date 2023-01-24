@@ -1,12 +1,26 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { Button, TextInput } from '$lib/components';
+	import { toastSuccess } from '$lib/components/toast';
 	import { forgotpwSchema } from '$lib/schemas';
+	import { authDialog } from '$lib/stores';
+	import { trpc } from '$lib/trpc/client';
+	import { handleErrorInClient } from '$lib/utils';
+	import { validateSchema } from '@felte/validator-zod';
+	import { createForm } from 'felte';
 	import { _ } from 'svelte-i18n';
 	import type { z } from 'zod';
-	import { createForm } from 'felte';
-	import { validateSchema } from '@felte/validator-zod';
-	import { Button, TextInput } from '$lib/components';
 
-	const { form, errors, isValid } = createForm<z.infer<typeof forgotpwSchema>>({
+	const { form, errors, isValid, isSubmitting } = createForm<z.infer<typeof forgotpwSchema>>({
+		onSubmit: async ({ email }) => {
+			try {
+				await trpc().user.sendForgotPasswordEmail.mutate({ email, url: $page.url.toString() });
+				toastSuccess($_('v-password.sent-email'));
+				authDialog.update(() => ({ isOpen: false }));
+			} catch (error) {
+				handleErrorInClient(error);
+			}
+		},
 		validate: validateSchema(forgotpwSchema)
 	});
 </script>
@@ -19,7 +33,12 @@
 		placeholder={$_('dialogs.auth.email-placeholder')}
 		type="email"
 	/>
-	<Button variants={{ intent: 'primary', width: 'full' }} disabled={!$isValid} type="submit">
+	<Button
+		variants={{ intent: 'primary', width: 'full' }}
+		disabled={!$isValid}
+		type="submit"
+		isLoading={$isSubmitting}
+	>
 		{$_('terms.forgotpw')}
 	</Button>
 </form>
