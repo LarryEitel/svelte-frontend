@@ -1,37 +1,49 @@
+import type { VerificationType } from '@prisma/client';
 import { _ } from 'svelte-i18n';
 import { get } from 'svelte/store';
-import { buildSmtpEmail } from '../singletons';
+import type { SendSmtpEmail } from '../adapters/sendinblue/apiclient';
 
-export const buildEmail = (params: EmailParams): any => {
-	const buttonUrl = `${params.url}/verify/${params.type}/${params.token}`;
-	buildSmtpEmail.subject = `${get(_)(`emails.verify_type.${params.type}.subject`)}`;
-	buildSmtpEmail.htmlContent = `
-  <!DOCTYPE html>
-<html>
-  <body>
-    <div>
-      <p>${params.recipientName}, ${get(_)(`emails.verify_type.${params.type}.title`)}</p>
-      <p>${get(_)(`emails.verify_type.${params.type}.subtitle`)}</p>
-      <a style="margin-top: 4rem; margin-bottom: 4rem;" target="_blank" href="${buttonUrl}">
-      ${buttonUrl}
-      </a>
-      <p>
-        ${get(_)('emails.footer.best-wishes')}<br />
-        ${get(_)('emails.footer.team')}<br />
-        ${get(_)('emails.footer.address')}
-      </p>
-    </div>
-  </body>
-</html>`;
-	buildSmtpEmail.sender = { name: 'Extensionly', email: 'extensionly@gmail.com' };
-	buildSmtpEmail.to = [{ email: params.toEmail }];
-	return buildSmtpEmail;
+const getHtmlContent = (params: EmailParams): string => {
+	const parsedType = params.verificationType.toLowerCase().replaceAll('_', '-');
+
+	const buttonUrl = `${params.frontendUrl}/verify/${parsedType}/${params.token}`;
+
+	return `
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <div>
+          <p>${params.recipientName}, ${get(_)(`emails.type.${parsedType}.title`)}</p>
+          <p>${get(_)(`emails.type.${parsedType}.subtitle`)}</p>
+          <a style="margin-top: 4rem; margin-bottom: 4rem;" target="_blank" href="${buttonUrl}">
+          ${buttonUrl}
+          </a>
+          <p>
+            ${get(_)('emails.footer.best-wishes')}<br />
+            ${get(_)('emails.footer.team')}<br />
+            ${get(_)('emails.footer.address')}
+          </p>
+        </div>
+      </body>
+    </html>
+  `.trim();
+};
+
+export const buildEmail = (params: EmailParams): SendSmtpEmail => {
+	const parsedType = params.verificationType.toLowerCase().replaceAll('_', '-');
+
+	return {
+		sender: { name: 'Extensionly', email: 'no-reply@extensionly.app' },
+		to: [{ email: params.recipientEmail }],
+		subject: get(_)(`emails.type.${parsedType}.subject`),
+		htmlContent: getHtmlContent(params)
+	};
 };
 
 export interface EmailParams {
-	type: string;
+	verificationType: VerificationType;
 	recipientName: string;
-	toEmail: string;
-	url: string;
+	recipientEmail: string;
+	frontendUrl: string;
 	token: string;
 }
