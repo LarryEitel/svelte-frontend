@@ -10,17 +10,43 @@
 	import { onMount } from 'svelte';
 	import { toastError, toastSuccess } from '$lib/components/toast';
 	import { _ } from 'svelte-i18n';
+	import NProgress from 'nprogress';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
+
+	NProgress.configure({
+		easing: 'ease',
+		speed: 200,
+		minimum: 0.25,
+		trickleSpeed: 90
+	});
+
+	beforeNavigate(() => {
+		NProgress.start();
+	});
+
+	afterNavigate(() => {
+		NProgress.done();
+	});
 
 	onMount(() => {
 		const params = Object.fromEntries(new URLSearchParams(window.location.search));
 
-		if (Object.keys(params).length !== 0) {
-			window.history.replaceState({}, document.title, '/');
+		if (Object.keys(params).length !== 0 && (params.error || params.success)) {
 			if (params.error) {
 				toastError($_(params.error));
 			} else if (params.success) {
 				toastSuccess($_(params.success));
 			}
+			delete params.error;
+			delete params.success;
+			let paramsString = '?';
+
+			for (let key in params) {
+				paramsString += key + '=' + params[key] + '&';
+			}
+			paramsString = paramsString.substring(0, paramsString.length - 1);
+
+			window.history.replaceState({}, document.title, window.location.pathname + paramsString);
 		}
 	});
 </script>

@@ -18,7 +18,7 @@
 
 	const { form, data } = createForm<z.infer<typeof searchBarSchema>>({
 		onSubmit: ({ search }) => {
-			goto(`/activities?q=${search}`);
+			search != '' ? goto(`/activities?query=${search}`) : goto(`/activities`);
 		},
 		validate: validateSchema(searchBarSchema)
 	});
