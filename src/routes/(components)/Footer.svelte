@@ -19,41 +19,36 @@
 
 	function handleSaveTheme(newTheme: Theme | 'system') {
 		if (newTheme === 'system') {
-			const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-				? 'night'
-				: 'winter';
-			theme.set(preferredTheme);
-			fetch('/api/theme', {
-				method: 'PUT',
-				body: JSON.stringify({ theme: preferredTheme })
-			});
+			newTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'winter';
+
 			fetch('/api/theme', {
 				method: 'PATCH',
 				body: JSON.stringify({ useSystemTheme: true })
 			});
 		} else {
-			theme.set(newTheme);
-			fetch('/api/theme', {
-				method: 'PUT',
-				body: JSON.stringify({ theme: newTheme })
-			});
 			fetch('/api/theme', {
 				method: 'PATCH',
 				body: JSON.stringify({ useSystemTheme: false })
 			});
 		}
+		theme.set(newTheme);
+		fetch('/api/theme', {
+			method: 'PUT',
+			body: JSON.stringify({ theme: newTheme })
+		});
+		document.body.setAttribute('data-theme', newTheme || 'winter');
 	}
 </script>
 
 <footer
-	class={`flex z-[5] flex-col bg-base-200 bg-opacity-40 text-base-content rounded-t-2xl mt-20`}
+	class={`z-[5] mt-20 flex flex-col rounded-t-2xl bg-base-200 bg-opacity-40 text-base-content`}
 >
-	<div class="flex items-start justify-around flex-col sm:flex-row gap-12 p-8">
-		<div class="flex flex-col justify-between h-36">
+	<div class="flex flex-col items-start justify-around gap-12 p-8 sm:flex-row">
+		<div class="flex h-36 flex-col justify-between">
 			<Button variants={{ intent: 'no-style' }} to="/" class="text-3xl font-semibold">
 				Extensionly
 			</Button>
-			<div class="flex-none flex-col gap-1 flex px-2">
+			<div class="flex flex-none flex-col gap-1 px-2">
 				<Button variants={{ intent: 'text-base', size: 'sm' }} to={'/about'}>
 					{$_('footer.about-us')}
 				</Button>
@@ -72,7 +67,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col">
-			<h6 class="font-semibold text-sm mb-4 px-2">{$_('footer.legal')}</h6>
+			<h6 class="mb-4 px-2 text-sm font-semibold">{$_('footer.legal')}</h6>
 			<Button variants={{ intent: 'text-base', size: 'sm' }} to={'/legal/cookies'}>
 				{$_('terms.cookies-policy')}
 			</Button>
@@ -87,9 +82,9 @@
 		</div>
 	</div>
 	<div
-		class="bg-base-300 bg-opacity-30 flex flex-col sm:flex-row justify-center sm:justify-evenly items-center p-2 px-4 gap-4"
+		class="flex flex-col items-center justify-center gap-4 bg-base-300 bg-opacity-30 p-2 px-4 sm:flex-row sm:justify-evenly"
 	>
-		<span class="text-sm text-center">{$_('footer.reserved')}</span>
+		<span class="text-center text-sm">{$_('footer.reserved')}</span>
 		<div class="flex gap-6">
 			<Menu
 				trigger={$_('terms.language')}

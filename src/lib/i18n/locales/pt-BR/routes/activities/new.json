@@ -1,0 +1,44 @@
+{
+  "a-new": {
+    "title": "Crie uma nova atividade de extensão",
+    "form": {
+      "title-placeholder": "Título da atividade",
+      "description-placeholder": "Uma descrição elaborada da atividade sendo proposta.",
+      "shortDescription-label": "Descrição breve",
+      "shortDescription-placeholder": "Uma ou duas frases no máximo.",
+      "project-label": "Projeto atrelado a esta atividade de extensão",
+      "project-button": "Selecione um projeto",
+      "project-fetch-error": "Algo deu errado ao carregar os projetos. Tente novamente mais tarde.",
+      "faculty-label": "Universidade atrelada à atividade",
+      "use-project-faculty": "Selecionar a mesma universidade do projeto",
+      "separators": {
+        "basic": "Informações Básicas",
+        "dates": "Datas e prazos"
+      },
+      "prerequisites-label": "Pré requisitos para inscrição na atividade",
+      "prerequisites-placeholder": "Ter conhecimentos específicos em alguma área, ter cursado alguma cadeira, trazer algum material...",
+      "modality-label": "Modalidade",
+      "modality-hybrid": "Híbrida",
+      "modality-remote": "Remota",
+      "modality-presential": "Presencial",
+      "start-date-label": "Data e hora de início da atividade",
+      "end-date-label": "Data e hora de término da atividade",
+      "description-label": "Descrição elaborada",
+      "title-label": "Título",
+      "use-project-visibility": "Selecionar a mesma visibilidade do projeto",
+      "location": {
+        "presential": {
+          "label": "Local onde acontecerá a atividade",
+          "placeholder": "Comece a digitar e escolha um item da lista"
+        },
+        "remote": {
+          "label": "Endereço virtual da atividade",
+          "placeholder": "Em formato de URL"
+        }
+      }
+    },
+    "toast": {
+      "success": "Atividade criada com sucesso!"
+    }
+  }
+}

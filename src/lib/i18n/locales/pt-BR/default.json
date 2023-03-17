@@ -28,7 +28,12 @@
     "save": "Salvar",
     "delete": "Excluir",
     "search-word": "Procurar",
-    "a": "A"
+    "a": "A",
+    "submit": "Enviar",
+    "programs": "Programas",
+    "projects": "Projetos",
+    "activities": "Atividades",
+    "default-select": "Selecione um item"
   },
   "dialogs": {
     "auth": {
@@ -72,5 +77,11 @@
     "public-analytics": "Estatísticas públicas",
     "legal": "Jurídico",
     "reserved": "© 2022-PRESENTE Os contribuidores da Extensionly. Todos os direitos reservados."
+  },
+  "prisma": {
+    "visibility": {
+      "public": "Todas as pessoas",
+      "private": "Apenas pessoas com vínculo com a universidade"
+    }
   }
 }

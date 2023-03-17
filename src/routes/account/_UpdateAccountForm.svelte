@@ -11,7 +11,7 @@
 
 	export let initialValues: z.infer<typeof userUpdateSchema>;
 
-	let isPhoneValid: boolean = false;
+	let isPhoneValid = false;
 
 	const { form, errors, isSubmitting, data, isDirty, touched } = createForm<
 		z.infer<typeof userUpdateSchema>
@@ -46,7 +46,7 @@
 			label={$_('r-acc.details.phone.label')}
 			autocomplete="tel"
 		/>
-		<div class="w-full flex gap-2">
+		<div class="flex w-full gap-2">
 			<TextInput error={$errors.image?.[0]} id="image" label={$_('r-acc.details.image.label')} />
 			{#if $data.image}
 				<img class="rounded-md" width="64px" src={$data.image} alt="Your profile avatar" />

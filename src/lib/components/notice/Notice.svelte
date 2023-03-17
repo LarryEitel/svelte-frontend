@@ -33,7 +33,7 @@
 	{:else if variants.intent === 'warning'}
 		<IconWarning class="w-10" width="2.5rem" height="2.5rem" />
 	{/if}
-	<p class="text-sm font-semibold w-full">
+	<p class="w-full text-sm font-semibold">
 		{text}
 	</p>
 </div>

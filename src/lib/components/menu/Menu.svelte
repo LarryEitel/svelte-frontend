@@ -18,7 +18,7 @@
 	});
 
 	export let trigger: string | null = null;
-	export let triggerId: string = '';
+	export let triggerId = '';
 	export let items: {
 		id?: string;
 		text: string;
@@ -37,7 +37,7 @@
 					data-testid={`menu-trigger-${triggerId}`}
 					variants={{ intent: 'ghost', case: 'normal', size: 'sm' }}
 				>
-					<p class="text-sm font-semibold truncate max-w-[7rem]">{trigger}</p>
+					<p class="max-w-[7rem] truncate text-sm font-semibold">{trigger}</p>
 					<IconArrowDown width="20px" height="20px" />
 				</Button>
 			{:else}
@@ -47,14 +47,14 @@
 	</div>
 	{#if open}
 		<div use:popperContent>
-			<MenuItems class="shadow bg-base-200 rounded-lg p-1 my-2 flex flex-col gap-1">
+			<MenuItems class="my-2 flex flex-col gap-1 rounded-lg bg-base-200 p-1 shadow">
 				{#each items as item}
 					<MenuItem
-						class="cursor-pointer transition-transform hover:scale-95 hover:bg-primary hover:text-primary-content rounded-md {item.classes}"
+						class="cursor-pointer rounded-md transition-transform hover:scale-95 hover:bg-primary hover:text-primary-content {item.classes}"
 					>
 						<Button
 							data-testid={`menu-item-${item.id ?? item.text}`}
-							class="p-2 items-center justify-center whitespace-nowrap font-semibold text-sm"
+							class="items-center justify-center whitespace-nowrap p-2 text-sm font-semibold"
 							variants={{ intent: 'no-style' }}
 							to={item.to ?? ''}
 							on:click={() => {

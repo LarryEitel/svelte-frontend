@@ -15,7 +15,7 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	<div class="flex flex-col lg:flex-row gap-6">
+	<div class="flex flex-col gap-6 lg:flex-row">
 		<UpdateAccountForm
 			initialValues={{
 				email: data.user.email,

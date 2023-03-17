@@ -4,6 +4,7 @@
 	import type { CountryCode, E164Number, NormalizedTelNumber } from 'svelte-tel-input/types';
 	import { _ } from 'svelte-i18n';
 	import PhoneCountryPicker from './PhoneCountryPicker.svelte';
+	import ErrorSpan from './ErrorSpan.svelte';
 
 	export let id: string;
 	export let label: string;
@@ -29,9 +30,9 @@
 	}
 </script>
 
-<label class="flex flex-col items-start gap-1 w-full" for={id + '-shell'}>
+<label class="flex w-full flex-col items-start gap-1" for={id + '-shell'}>
 	<span class="label-text">{label}</span>
-	<div class="flex rounded-md gap-2 w-full" use:clickOutsideAction={() => (isOpen = false)}>
+	<div class="flex w-full gap-2 rounded-md" use:clickOutsideAction={() => (isOpen = false)}>
 		<PhoneCountryPicker bind:selected bind:isOpen />
 
 		<TelInput
@@ -42,17 +43,15 @@
 			bind:country={selected}
 			bind:parsedTelInput
 			bind:value
-			class="border bg-base-200 focus:outline-none input p-2 h-[2.5rem] rounded-md placeholder:text-base-content/40 placeholder:text-sm w-full text-sm {!isValid &&
+			class="input h-[2.5rem] w-full rounded-md border bg-base-200 p-2 text-sm placeholder:text-sm placeholder:text-base-content/40 focus:outline-none {!isValid &&
 			isTouched
-				? `border-error border-2`
-				: `focus:border-base-content/40`} text-sm rounded-r-md block w-full p-2.5 
+				? `border border-error`
+				: `focus:border-base-content/40`} block w-full rounded-r-md p-2.5 text-sm 
              focus:outline-none"
 		/>
 		<input {id} name={id} type="hidden" bind:value={parsedValue} />
 	</div>
 	{#if !isValid && isTouched}
-		<span class="text-error font-bold text-xs mb-1 h-2" data-testid={`${id}-error`}>
-			{$_('zod.phone.invalid')}
-		</span>
+		<ErrorSpan error={$_('zod.phone.invalid')} {id} />
 	{/if}
 </label>

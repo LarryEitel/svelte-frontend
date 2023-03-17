@@ -2,7 +2,7 @@
 	import { _ } from 'svelte-i18n';
 </script>
 
-<article class="prose prose-slate">
+<article class="prose-slate prose">
 	<h1>{$_('l-c.intro.title')}</h1>
 	<p>{$_('l-c.intro.last-updated')}</p>
 	<p>{$_('l-c.intro.par-1')}</p>

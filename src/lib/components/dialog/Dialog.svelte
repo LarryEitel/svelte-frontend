@@ -23,21 +23,21 @@
 </script>
 
 <Dialog open={isOpen} on:close={() => close()} unmount={false}>
-	<DialogOverlay class="fixed animate-slide-down inset-0 z-20 bg-black/70" />
+	<DialogOverlay class="fixed inset-0 z-20 animate-slide-down bg-black/70" />
 
 	<div
 		data-theme={$theme}
 		style="max-width: {sizes[size]};"
-		class={`fixed z-50 w-[95vw] px-12 md:w-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-transparent flex flex-col text-base-content py-8 h-full items-center justify-center`}
+		class={`fixed top-[50%] left-[50%] z-50 flex h-full w-[95vw] -translate-x-[50%] -translate-y-[50%] flex-col items-center justify-center bg-transparent px-12 py-8 text-base-content md:w-full`}
 	>
-		<div class="bg-base-300 p-4 rounded-lg overflow-y-auto">
-			<div class="flex justify-between mb-4">
+		<div class="overflow-y-auto rounded-lg bg-base-300 p-4">
+			<div class="mb-4 flex justify-between">
 				<div class="flex-1" />
-				<button on:click={() => close()} class="opacity-75  hover:opacity-100 transition-all">
+				<button on:click={() => close()} class="opacity-75  transition-all hover:opacity-100">
 					<IconX width="28px" height="28px" />
 				</button>
 			</div>
-			<DialogTitle class="text-lg font-semibold text-center mb-2">{title}</DialogTitle>
+			<DialogTitle class="mb-2 text-center text-lg font-semibold">{title}</DialogTitle>
 			<DialogDescription class="text-center">{description}</DialogDescription>
 			<slot />
 		</div>

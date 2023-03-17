@@ -41,7 +41,7 @@
 	];
 </script>
 
-<article class="prose prose-slate mb-16">
+<article class="prose-slate prose mb-16">
 	<h1 class="font-semibold">{$_('r-about.about-us')}</h1>
 	<h3>{$_('terms.a')} Extensionly</h3>
 	<p>{$_('r-about.p1')}</p>
@@ -54,25 +54,25 @@
 <div class="flex flex-wrap items-center justify-center gap-6">
 	{#each people as p}
 		<div
-			class="flex max-w-xs md:max-w-2xl flex-col md:flex-row rounded-lg shadow-lg bg-base-300 w-[600px]"
+			class="flex w-[600px] max-w-xs flex-col rounded-lg bg-base-300 shadow-lg md:max-w-2xl md:flex-row"
 		>
 			<div class="flex flex-1">
 				<img
 					alt={`Contributor ${p.name}`}
-					class="rounded-t-lg md:rounded-l-lg md:rounded-tr-none aspect-auto max-w-xs"
+					class="aspect-auto max-w-xs rounded-t-lg md:rounded-l-lg md:rounded-tr-none"
 					src={p.imageUrl}
 				/>
 			</div>
-			<div class="flex flex-col items-center p-4 justify-evenly prose w-full md:w-1/2">
+			<div class="prose flex w-full flex-col items-center justify-evenly p-4 md:w-1/2">
 				<h3>{p.name}</h3>
 				<Button variants={{ intent: 'text' }} to={p.social}>
 					{p.handle}
 				</Button>
-				<p class="text-sm text-center font-medium">{p.description}</p>
-				<div class="flex flex-wrap gap-2 justify-center ">
+				<p class="text-center text-sm font-medium">{p.description}</p>
+				<div class="flex flex-wrap justify-center gap-2 ">
 					{#each p.tags as tag}
-						<div class="p-1 px-2 bg-base-200 uppercase leading-none rounded-md">
-							<span class="text-xs p-0 font-semibold">{tag}</span>
+						<div class="rounded-md bg-base-200 p-1 px-2 uppercase leading-none">
+							<span class="p-0 text-xs font-semibold">{tag}</span>
 						</div>
 					{/each}
 				</div>

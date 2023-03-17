@@ -3,5 +3,5 @@ import { base } from './_base';
 
 export const signinSchema = z.object({
 	email: base.strings.email,
-	password: base.strings.default
+	password: base.strings.short
 });

@@ -67,7 +67,7 @@
 	on:click={() => (isOpen = !isOpen)}
 >
 	{#if selected && selected !== null}
-		<span class="flag flag-{selected.toLowerCase()} flex-shrink-0 mr-1" />
+		<span class="flag flag-{selected.toLowerCase()} mr-1 flex-shrink-0" />
 		<span>+{selectedCountryDialCode}</span>
 	{:else}
 		<IconLoading width="24px" height="24px" />
@@ -77,7 +77,7 @@
 {#if isOpen}
 	<div
 		id="dropdown-countries"
-		class="z-10 max-w-xs bg-base-100 rounded divide-y divide-gray-100 absolute translate-y-11 overflow-hidden"
+		class="absolute z-10 max-w-xs translate-y-11 divide-y divide-gray-100 overflow-hidden rounded bg-base-100"
 		data-popper-reference-hidden=""
 		data-popper-escaped=""
 		data-popper-placement="bottom"
@@ -85,12 +85,12 @@
 		aria-labelledby="country-button"
 		tabindex="-1"
 	>
-		<ul class="text-sm max-h-48 overflow-y-auto" aria-labelledby="countries-button" role="listbox">
+		<ul class="max-h-48 overflow-y-auto text-sm" aria-labelledby="countries-button" role="listbox">
 			<input
 				bind:this={searchInput}
 				aria-autocomplete="list"
 				type="text"
-				class="px-4 py-2 focus:outline-none w-full sticky top-0 bg-base-200"
+				class="sticky top-0 w-full bg-base-200 px-4 py-2 focus:outline-none"
 				placeholder={$_('terms.search-word') + '...'}
 				bind:value={searchText}
 			/>
@@ -100,13 +100,13 @@
 					<button
 						value={country.iso2}
 						type="button"
-						class="inline-flex py-2 px-4 w-full text-sm hover:bg-gray-100 dark:hover:bg-base-300 overflow-hidden"
+						class="inline-flex w-full overflow-hidden py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-base-300"
 						on:click={(e) => {
 							handleSelect(country.iso2, e);
 						}}
 					>
 						<div class="inline-flex items-center text-left">
-							<span class="flag flag-{country.iso2.toLowerCase()} flex-shrink-0 mr-1" />
+							<span class="flag flag-{country.iso2.toLowerCase()} mr-1 flex-shrink-0" />
 							<span class="mx-2">{country.name}</span>
 							<span class="font-bold">+{country.dialCode}</span>
 						</div>

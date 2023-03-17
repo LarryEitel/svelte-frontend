@@ -3,9 +3,9 @@ import { base } from './_base';
 
 export const signupSchema = z
 	.object({
-		name: base.strings.default,
+		name: base.strings.short,
 		email: base.strings.email,
-		phone: base.strings.default,
+		phone: base.strings.short,
 		password: base.strings.password,
 		cpassword: z.string(),
 		isTermsAccepted: z.literal(true)

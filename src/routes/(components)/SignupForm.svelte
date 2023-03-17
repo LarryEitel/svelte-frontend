@@ -13,7 +13,7 @@
 	import { _ } from 'svelte-i18n';
 	import type { z } from 'zod';
 
-	let isPhoneValid: boolean = false;
+	let isPhoneValid = false;
 
 	const { form, errors, isValid, touched, data, isSubmitting } = createForm<
 		z.infer<typeof signupSchema>
@@ -49,7 +49,7 @@
 	};
 </script>
 
-<form use:form class="flex flex-col w-full gap-4">
+<form use:form class="flex w-full flex-col gap-4">
 	<TextInput
 		data-testid="signup-name-input"
 		error={$errors.name?.[0]}
@@ -94,10 +94,10 @@
 		type="password"
 	/>
 	<Checkbox id="isTermsAccepted" type="checkbox">
-		<label for="isTermsAccepted" class="text-xs text-left font-medium" slot="label">
+		<label for="isTermsAccepted" class="text-left text-xs font-medium" slot="label">
 			{$_('dialogs.auth.accept-terms-label')}
 			<span
-				class="hover:opacity-75 transition-opacity font-bold text-xs h-[1rem] min-h-[1rem] whitespace-normal cursor-pointer"
+				class="h-[1rem] min-h-[1rem] cursor-pointer whitespace-normal text-xs font-bold transition-opacity hover:opacity-75"
 				on:keydown={(e) => {
 					if (e.key === 'Enter') {
 						e.preventDefault();
@@ -113,7 +113,7 @@
 			</span>
 			{$_('dialogs.auth.terms-agreement.2')}
 			<span
-				class="hover:opacity-75 transition-opacity font-bold text-xs h-[1rem] min-h-[1rem] whitespace-normal cursor-pointer"
+				class="h-[1rem] min-h-[1rem] cursor-pointer whitespace-normal text-xs font-bold transition-opacity hover:opacity-75"
 				on:keydown={(e) => {
 					if (e.key === 'Enter') {
 						e.preventDefault();

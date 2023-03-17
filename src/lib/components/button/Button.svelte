@@ -4,10 +4,10 @@
 	import IconArrowSquareOut from '~icons/ph/arrow-square-out';
 
 	export let variants: VariantProps<typeof buttonStyles> = {};
-	export let to: string = '';
+	export let to = '';
 	export let type: 'button' | 'submit' | 'reset' | null | undefined = 'button';
-	export let isLoading: boolean = false;
-	export let disabled: boolean = false;
+	export let isLoading = false;
+	export let disabled = false;
 
 	const isExternal = to ? !/^(\/|#)(.*)/g.test(to) : false;
 

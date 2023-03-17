@@ -16,6 +16,8 @@
 	import IconBackspace from '~icons/ph/backspace';
 	import IconMagnifyingGlass from '~icons/ph/magnifying-glass';
 	import type { PageData } from './$types';
+	import PhPlusBold from '~icons/ph/plus-bold';
+	import { Heading } from '$lib/components/text';
 
 	export let data: PageData;
 
@@ -71,9 +73,9 @@
 	};
 </script>
 
-<h1 class="text-4xl text-secondary font-semibold text-center mb-12">{$_('a-default.title')}</h1>
-<div class="flex flex-row justify-center items-center mb-20 w-full">
-	<form use:form class="flex flex-grow max-w-3xl">
+<Heading>{$_('a-default.title')}</Heading>
+<div class="mb-20 flex w-full flex-row items-center justify-center gap-8">
+	<form use:form class="flex max-w-xl flex-grow">
 		<TextInput id="search" placeholder={$_('a-default.title')} variants={{ intent: 'searchBar' }}>
 			<div slot="left" class="flex items-center">
 				<IconMagnifyingGlass class="" width="24px" height="24px" />
@@ -93,24 +95,28 @@
 			</div>
 		</TextInput>
 	</form>
+	<Button to="/activities/new" variants={{ intent: 'accent' }}>
+		<PhPlusBold width="20px" height="20px" />
+		{$_('a-default.create-activity')}
+	</Button>
 </div>
 <div>
 	{#if activities.length > 0}
-		<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-10 justify-center">
+		<div class="grid justify-center gap-10 md:grid-cols-2 xl:grid-cols-3">
 			{#each activities as activity}
 				<ActivityCard {activity} />
 			{/each}
 			{#if activitiesLoading}
 				{#each new Array(6) as _}
 					<div
-						class="animate-pulse bg-base-300 p-3 rounded-box shadow-md flex flex-col gap-2 max-w-sm h-[25rem]"
+						class="rounded-box flex h-[25rem] max-w-sm animate-pulse flex-col gap-2 bg-base-300 p-3 shadow-md"
 					/>
 				{/each}
 			{/if}
 		</div>
 		{#if !hasMore}
-			<div class="flex justify-center items-center flex-col mt-12">
-				<h1 data-testid="error-fallback-title" class="text-xl font-medium text-center">
+			<div class="mt-12 flex flex-col items-center justify-center">
+				<h1 data-testid="error-fallback-title" class="text-center text-xl font-medium">
 					{$_('a-default.no-more-results')}
 				</h1>
 			</div>
@@ -118,9 +124,9 @@
 			<div use:inview on:change={handleChange} />
 		{/if}
 	{:else}
-		<div class="flex justify-center items-center flex-col">
+		<div class="flex flex-col items-center justify-center">
 			<h3 class="text-md text-center">{$_('a-default.no-activities-found')}</h3>
-			<img class="max-w-md my-12" src={$theme === 'winter' ? Empty : EmptyDark} alt="Empty" />
+			<img class="my-12 max-w-md" src={$theme === 'winter' ? Empty : EmptyDark} alt="Empty" />
 		</div>
 	{/if}
 </div>

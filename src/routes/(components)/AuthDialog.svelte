@@ -2,9 +2,9 @@
 	import { Button, Dialog } from '$lib/components';
 	import { _ } from 'svelte-i18n';
 	import IconGoogle from '~icons/logos/google-icon';
-	import SigninForm from './_SigninForm.svelte';
-	import SignupForm from './_SignupForm.svelte';
-	import ForgotpwForm from './_ForgotpwForm.svelte';
+	import SigninForm from './SigninForm.svelte';
+	import SignupForm from './SignupForm.svelte';
+	import ForgotpwForm from './ForgotpwForm.svelte';
 	import { authDialog } from '$lib/stores';
 	import { openPopupWindow } from '$lib/utils';
 
@@ -37,7 +37,7 @@
 	isOpen={$authDialog.isOpen}
 	close={() => authDialog.update(() => ({ isOpen: false }))}
 >
-	<div class="px-2 flex justify-center items-center flex-col mt-4">
+	<div class="mt-4 flex flex-col items-center justify-center px-2">
 		{#if context == 'signin' || context == 'signup'}
 			<div class={`${context == 'signin' ? 'block' : 'hidden'}`}>
 				<Button
@@ -47,19 +47,19 @@
 					<IconGoogle width="18px" height="18px" />
 					<p class="flex-1">{$_(`terms.${providerBtnString}`)} {$_('terms.with')} Google</p>
 				</Button>
-				<p class="text-xs text-center font-medium mt-2">
+				<p class="mt-2 text-center text-xs font-medium">
 					{$_('dialogs.auth.terms-agreement.1')}
-					<a class="hover:opacity-75 transition-opacity font-bold" href="/legal/privacy">
+					<a class="font-bold transition-opacity hover:opacity-75" href="/legal/privacy">
 						{$_('terms.privacy-policy')}
 					</a>
 					{$_('dialogs.auth.terms-agreement.2')}
-					<a class="hover:opacity-75 transition-opacity font-bold" href="/legal/terms">
+					<a class="font-bold transition-opacity hover:opacity-75" href="/legal/terms">
 						{$_('terms.terms-and-conditions')}.
 					</a>
 				</p>
-				<div class="relative flex py-4 items-center w-full">
+				<div class="relative flex w-full items-center py-4">
 					<div class="flex-grow border-t border-base-content" />
-					<span class="flex-shrink mx-4 text-sm text-base-content"
+					<span class="mx-4 flex-shrink text-sm text-base-content"
 						>{$_('dialogs.auth.or-continue')}</span
 					>
 					<div class="flex-grow border-t border-base-content" />
@@ -72,7 +72,7 @@
 		{:else if context == 'forgotpw'}
 			<ForgotpwForm />
 		{/if}
-		<div class="flex flex-col gap-3 my-4 items-center justify-center">
+		<div class="my-4 flex flex-col items-center justify-center gap-3">
 			<Button
 				data-testid="auth-dialog-context-btn"
 				on:click={handleSwitchContext}

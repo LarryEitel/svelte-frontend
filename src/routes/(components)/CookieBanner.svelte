@@ -21,7 +21,7 @@
 
 {#if shouldShowBanner}
 	<div
-		class="fixed z-50 sm:w-96 bottom-8 right-8 ml-8 card bg-base-300 shadow-xl"
+		class="card fixed bottom-8 right-8 z-50 ml-8 bg-base-300 shadow-xl sm:w-96"
 		data-testid="cookie-banner"
 	>
 		<div class="card-body">
@@ -29,7 +29,7 @@
 			<p>{$_('terms.cookies-notice.subtitle')}</p>
 			<p class="text-sm">
 				{$_('terms.cookies-notice.more-info')}
-				<a class="transition-opacity hover:opacity-75 font-semibold" href={'/legal/cookies'}>
+				<a class="font-semibold transition-opacity hover:opacity-75" href={'/legal/cookies'}>
 					{$_('terms.cookies-policy')}.
 				</a>
 			</p>

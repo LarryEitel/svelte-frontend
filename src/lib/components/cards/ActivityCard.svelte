@@ -43,18 +43,18 @@
 	};
 </script>
 
-<div class="bg-base-300 p-3 rounded-box shadow-md flex flex-col gap-2 max-w-sm">
-	<div class="flex gap-2 bg-base-200 rounded-box p-1 items-center px-3 justify-between">
+<div class="rounded-box flex max-w-sm flex-col gap-2 bg-base-300 p-3 shadow-md">
+	<div class="rounded-box flex items-center justify-between gap-2 bg-base-200 p-1 px-3">
 		<div class="flex flex-col">
-			<span class="font-semibold text-lg line-clamp-3 max-w-[17rem]">{activity.title}</span>
-			<span class="text-sm max-w-[17rem] line-clamp-1">{activity.User.name}</span>
+			<span class="max-w-[17rem] text-lg font-semibold line-clamp-3">{activity.title}</span>
+			<span class="max-w-[17rem] text-sm line-clamp-1">{activity.User.name}</span>
 		</div>
 		<Avatar src={activity.User?.image || activity.User.name} size="md" class="rounded-3xl" />
 	</div>
-	<div class="flex-wrap flex gap-2 text-sm font-semibold items-center my-2">
+	<div class="my-2 flex flex-wrap items-center gap-2 text-sm font-semibold">
 		<!-- <Button intent="no-style" to={`${ProjectsRoute}/${activity.projectId}`}> -->
 		<a href="/">
-			<Tag variants={{ intent: 'project' }}>{activity.Project.name}</Tag>
+			<Tag variants={{ intent: 'project' }}>{activity.Project.title}</Tag>
 		</a>
 		{#if activity.modality === 'REMOTE'}
 			<Tag variants={{ intent: 'online' }}>
@@ -64,10 +64,10 @@
 		{/if}
 	</div>
 	<p class="line-clamp-3">{activity.shortDescription}</p>
-	<div class="flex gap-2 flex-col px-1 flex-1 justify-center my-3">
+	<div class="my-3 flex flex-1 flex-col justify-center gap-2 px-1">
 		{#if isActivityFinished}
 			<p class="text-center">
-				<span class="font-semibold text-lg">{$_('a-default.activity-finished')}</span>
+				<span class="text-lg font-semibold">{$_('a-default.activity-finished')}</span>
 			</p>
 		{:else}
 			<p class="text-center">
@@ -112,10 +112,10 @@
 			</p>
 		{/if}
 	</div>
-	{#if activity.location}
-		<div class="flex gap-1.5 items-center">
-			<IconMapPin class="flex-none text-blue-500 font-bold w-5" />
-			<p>{activity.location}</p>
+	{#if activity.locationPresential}
+		<div class="flex items-center gap-1.5">
+			<IconMapPin class="w-5 flex-none font-bold text-blue-500" />
+			<p>{activity.locationPresential}</p>
 		</div>
 	{/if}
 	<div class="flex gap-2">

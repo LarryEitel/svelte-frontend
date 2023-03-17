@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 
-	export let label: string = '';
+	export let label = '';
 	export let id: string;
-	export let error: string = '';
+	export let error = '';
 </script>
 
 <div class={`form-control w-full ${$$props.class}`}>
-	<div class="w-full flex gap-2 items-center justify-center">
+	<div class="flex w-full items-center gap-2">
 		<input
 			{id}
 			name={id}
@@ -21,7 +21,7 @@
 		</slot>
 	</div>
 	{#if !!error}
-		<span class="text-error font-bold text-xs mb-2 h-2" data-testid={`${id}-error`}>
+		<span class="mb-2 h-2 text-xs font-bold text-error" data-testid={`${id}-error`}>
 			{$_(error)}
 		</span>
 	{/if}

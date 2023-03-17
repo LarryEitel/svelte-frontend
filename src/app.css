@@ -9,6 +9,11 @@
 		-webkit-font-smoothing: antialiased;
 	}
 
+	:root,
+	[data-theme] {
+		@apply bg-base-100;
+	}
+
 	html,
 	body,
 	#theme-container {
@@ -163,3 +168,28 @@
 		transform: rotate(360deg);
 	}
 }
+
+/* google places autocomplete */
+
+.pac-container {
+	font-family: 'Montserrat', sans-serif;
+	@apply mt-1 rounded-md border border-base-content/40 bg-base-200 py-1 shadow-none;
+}
+
+.pac-item {
+	@apply border-transparent p-1 text-base-content hover:cursor-pointer hover:bg-secondary-content/50 hover:text-secondary;
+}
+
+.pac-matched {
+	@apply font-semibold;
+}
+
+.pac-item-query {
+	@apply p-2 text-base-content hover:text-secondary;
+}
+
+.pac-icon {
+	@apply text-accent;
+}
+
+/* ./google places autocomplete */

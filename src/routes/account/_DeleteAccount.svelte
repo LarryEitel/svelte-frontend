@@ -45,7 +45,7 @@
 			use:form
 			method="POST"
 			action="/account?/deleteAccount"
-			class="flex items-center gap-4 flex-col"
+			class="flex flex-col items-center gap-4"
 		>
 			<TextInput id="emailDelete" label={$_('r-acc.delete.dialog.description')} />
 			<Button
