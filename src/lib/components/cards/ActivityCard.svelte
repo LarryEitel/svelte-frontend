@@ -25,8 +25,8 @@
 		start: activity.startDate
 	});
 	const enrollmentStatus = getDateStatus({
-		end: activity.enrollmentEnd,
-		start: activity.enrollmentStart
+		end: activity.enrollmentEndDate,
+		start: activity.enrollmentStartDate
 	});
 
 	$: formatDate = (ISODate: string) => {
@@ -97,7 +97,7 @@
 			<p class="text-center text-sm">
 				{$_('a-default.enrollments.will-open')}{' '}
 				<HighlightedSpan variants={{ dateStatus: enrollmentStatus }}>
-					{formatDate(activity.enrollmentStart)}.
+					{formatDate(activity.enrollmentStartDate)}.
 				</HighlightedSpan>
 			</p>
 		{/if}
@@ -107,7 +107,7 @@
 				<HighlightedSpan variants={{ dateStatus: enrollmentStatus }}>
 					{$_('a-default.enrollments.open')}
 					{$_('a-default.enrollments.until')}
-					{formatDate(activity.enrollmentEnd)}
+					{formatDate(activity.enrollmentEndDate)}
 				</HighlightedSpan>
 			</p>
 		{/if}

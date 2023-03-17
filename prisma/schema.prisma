@@ -91,34 +91,34 @@ model Project {
 }
 
 model Activity {
-  id                 String            @id @default(uuid())
-  paginationId       Int               @unique @default(autoincrement())
-  title              String
-  description        String            @db.LongText
-  shortDescription   String            @db.MediumText
-  category           String?
-  locationPresential String?
-  locationRemote     String?
-  prerequisites      String?
-  startDate          DateTime
-  endDate            DateTime
-  enrollmentStart    DateTime
-  enrollmentEnd      DateTime
-  contact            String?
-  targetAudience     TargetAudience
-  visibility         EventVisibility
-  status             ActivityStatus    @default(CREATED)
-  modality           Modality?         @default(REMOTE)
-  proponentId        String
-  projectId          String
-  facultyId          String
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  UserEnrollments    UserEnrollments[]
-  SubActivity        SubActivity[]
-  Faculty            Faculty           @relation(fields: [facultyId], references: [id])
-  User               User              @relation(fields: [proponentId], references: [id])
-  Project            Project           @relation(fields: [projectId], references: [id])
+  id                  String            @id @default(uuid())
+  paginationId        Int               @unique @default(autoincrement())
+  title               String
+  description         String            @db.LongText
+  shortDescription    String            @db.MediumText
+  category            String?
+  locationPresential  String?
+  locationRemote      String?
+  prerequisites       String?           @db.LongText
+  startDate           DateTime
+  endDate             DateTime
+  enrollmentStartDate DateTime
+  enrollmentEndDate   DateTime
+  contact             String?
+  targetAudience      TargetAudience
+  visibility          EventVisibility
+  status              ActivityStatus    @default(CREATED)
+  modality            Modality?         @default(REMOTE)
+  proponentId         String
+  projectId           String
+  facultyId           String
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  UserEnrollments     UserEnrollments[]
+  SubActivity         SubActivity[]
+  Faculty             Faculty           @relation(fields: [facultyId], references: [id])
+  User                User              @relation(fields: [proponentId], references: [id])
+  Project             Project           @relation(fields: [projectId], references: [id])
 
   @@index([proponentId])
   @@index([projectId])

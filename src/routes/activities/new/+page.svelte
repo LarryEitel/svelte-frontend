@@ -24,8 +24,6 @@
 			title: 'title',
 			description: 'description',
 			shortDescription: 'shortDescription',
-			startDate: DateTime.now().toISO(),
-			endDate: DateTime.now().plus({ days: 1 }).toISO(),
 			visibility: 'PUBLIC',
 			facultyId: 'facultyid',
 			prerequisites: 'prerequisites'
@@ -35,7 +33,9 @@
 				values = {
 					...values,
 					startDate: DateTime.fromISO(values.startDate).toISO(),
-					endDate: DateTime.fromISO(values.endDate).toISO()
+					endDate: DateTime.fromISO(values.endDate).toISO(),
+					enrollmentStartDate: DateTime.fromISO(values.enrollmentStartDate).toISO(),
+					enrollmentEndDate: DateTime.fromISO(values.enrollmentEndDate).toISO()
 				};
 
 				// await trpc($page).project.createProject.mutate(values);
@@ -95,6 +95,24 @@
 			$data.visibility = selectedVisibility;
 		}
 	}
+
+	// dates
+	const formatToDateInput = (date?: string) => {
+		const format = "yyyy-MM-dd'T'HH:mm";
+
+		if (!date) {
+			return DateTime.now().toFormat(format);
+		}
+
+		return DateTime.fromISO(date).toFormat(format);
+	};
+
+	$: minEnrollmentStartDate = formatToDateInput($data.startDate);
+	$: minEnrollmentEndDate = formatToDateInput($data.enrollmentStartDate);
+
+	$: maxEnrollmentDate = $data.endDate
+		? formatToDateInput($data.endDate)
+		: formatToDateInput(DateTime.now().plus({ years: 3 }).toISO());
 </script>
 
 <Heading>{$_('a-new.title')}</Heading>
@@ -280,6 +298,24 @@
 		type="datetime-local"
 		min={DateTime.now().toFormat("yyyy-MM-dd'T'HH:mm")}
 		max={DateTime.now().plus({ years: 3 }).toFormat("yyyy-MM-dd'T'HH:mm")}
+	/>
+
+	<TextInput
+		id="enrollmentStartDate"
+		label={$_('a-new.form.enrollment-start-date-label')}
+		error={$errors.enrollmentStartDate?.[0]}
+		type="datetime-local"
+		min={minEnrollmentStartDate}
+		max={maxEnrollmentDate}
+	/>
+
+	<TextInput
+		id="enrollmentEndDate"
+		label={$_('a-new.form.enrollment-end-date-label')}
+		error={$errors.enrollmentEndDate?.[0]}
+		type="datetime-local"
+		min={minEnrollmentEndDate}
+		max={maxEnrollmentDate}
 	/>
 
 	<Button

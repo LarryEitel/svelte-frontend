@@ -35,7 +35,9 @@
           "label": "Endereço virtual da atividade",
           "placeholder": "Em formato de URL"
         }
-      }
+      },
+      "enrollment-start-date-label": "Data e hora de início do período de inscrições",
+      "enrollment-end-date-label": "Data e hora de término do período de inscrições"
     },
     "toast": {
       "success": "Atividade criada com sucesso!"
