@@ -20,6 +20,6 @@ test('manipulates form then creates project', async ({ page }) => {
 	await page.getByTestId('accept-students-proposals').check();
 	await page.getByTestId('submit-btn').click();
 
-	expect(page.getByTestId('toast-error')).toHaveCount(0);
-	expect(page.getByTestId('toast-success')).toHaveCount(1);
+	await expect(page.getByTestId('toast-error')).toHaveCount(0);
+	await expect(page.getByTestId('toast-success')).toHaveCount(1);
 });

@@ -36,21 +36,24 @@
 	{/if}
 	<Listbox class="w-full" value={selected} let:open on:change={(e) => (selected = e.detail)}>
 		<div class="flex items-center gap-2">
-			<ListboxButton
-				data-testid={`select-${id}-btn`}
-				on:click
-				class={`${selectStyle({
-					...variants,
-					intent: error ? 'error' : variants.intent
-				})}`}
-			>
-				{buttonText || selected || $_('terms.default-select')}
-				{#if open}
-					<IconCaretUp />
-				{:else}
-					<IconCaretDown />
-				{/if}
-			</ListboxButton>
+			<div class="flex w-full">
+				<slot name="icon" />
+				<ListboxButton
+					data-testid={`select-${id}-btn`}
+					on:click
+					class={`${selectStyle({
+						...variants,
+						intent: error ? 'error' : variants.intent
+					})} ${$$slots.icon ? 'rounded-l-none' : ''}`}
+				>
+					{buttonText || selected || $_('terms.default-select')}
+					{#if open}
+						<IconCaretUp />
+					{:else}
+						<IconCaretDown />
+					{/if}
+				</ListboxButton>
+			</div>
 			{#if Boolean(info)}
 				<Popover placement="right">
 					<IconInfo

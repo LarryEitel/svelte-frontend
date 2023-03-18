@@ -1,4 +1,17 @@
 <script lang="ts">
+	import PhCalendarPlusFill from '~icons/ph/calendar-plus-fill';
+	import PhCalendarPlus from '~icons/ph/calendar-plus';
+	import PhCalendarBlankFill from '~icons/ph/calendar-blank-fill';
+	import PhCalendarBlank from '~icons/ph/calendar-blank';
+	import PhUsersThree from '~icons/ph/users-three';
+	import PhGraduationCap from '~icons/ph/graduation-cap';
+	import PhFlowArrow from '~icons/ph/flow-arrow';
+	import PhListChecks from '~icons/ph/list-checks';
+	import PhLink from '~icons/ph/link';
+	import PhArmchair from '~icons/ph/armchair';
+	import PhTextAlignCenter from '~icons/ph/text-align-center';
+	import PhTextT from '~icons/ph/text-t';
+	import PhChatCenteredText from '~icons/ph/chat-centered-text';
 	import { page } from '$app/stores';
 	import { Button, TextInput } from '$lib/components';
 	import { AddressInput, Select, SelectOption, TextArea } from '$lib/components/form';
@@ -125,21 +138,27 @@
 		id="title"
 		label={$_('a-new.form.title-label')}
 		placeholder={$_('a-new.form.title-placeholder')}
-	/>
+	>
+		<PhTextT slot="icon" />
+	</TextInput>
 
 	<TextInput
 		error={$errors.shortDescription?.[0]}
 		id="shortDescription"
 		label={$_('a-new.form.shortDescription-label')}
 		placeholder={$_('a-new.form.shortDescription-placeholder')}
-	/>
+	>
+		<PhChatCenteredText slot="icon" />
+	</TextInput>
 
 	<TextArea
 		error={$errors.description?.[0]}
 		id="description"
 		label={$_('a-new.form.description-label')}
 		placeholder={$_('a-new.form.description-placeholder')}
-	/>
+	>
+		<PhTextAlignCenter slot="icon" />
+	</TextArea>
 
 	<Select
 		id="modality"
@@ -150,6 +169,7 @@
 			? $_('a-new.form.modality-' + selectedModality?.toLowerCase())
 			: ''}
 	>
+		<PhArmchair slot="icon" />
 		<SelectOption value="HYBRID">{$_('a-new.form.modality-hybrid')}</SelectOption>
 		<SelectOption value="PRESENTIAL">{$_('a-new.form.modality-presential')}</SelectOption>
 		<SelectOption value="REMOTE">{$_('a-new.form.modality-remote')}</SelectOption>
@@ -174,7 +194,9 @@
 				error={$errors.locationRemote?.[0]}
 				label={$_('a-new.form.location.remote.label')}
 				placeholder={$_('a-new.form.location.remote.placeholder')}
-			/>
+			>
+				<PhLink slot="icon" />
+			</TextInput>
 		</div>
 	{/if}
 
@@ -183,7 +205,9 @@
 		id="prerequisites"
 		label={$_('a-new.form.prerequisites-label')}
 		placeholder={$_('a-new.form.prerequisites-placeholder')}
-	/>
+	>
+		<PhListChecks slot="icon" />
+	</TextArea>
 
 	<Select
 		id="projectId"
@@ -194,6 +218,7 @@
 		error={$errors.projectId?.[0]}
 		on:click={() => (fetchProjectsPromise ??= fetchProjects())}
 	>
+		<PhFlowArrow slot="icon" />
 		{#await fetchProjectsPromise}
 			{#each Array(10) as _}
 				<SelectOption skeleton />
@@ -233,6 +258,7 @@
 			on:click={() => (fetchFacultiesPromise ??= fetchFaculties())}
 			info={$_('p-new.form.faculty-info')}
 		>
+			<PhGraduationCap slot="icon" />
 			{#await fetchFacultiesPromise}
 				{#each Array(10) as _}
 					<SelectOption skeleton />
@@ -272,6 +298,7 @@
 				? $_('prisma.visibility.' + selectedVisibility?.toLowerCase())
 				: ''}
 		>
+			<PhUsersThree slot="icon" />
 			<SelectOption value="PUBLIC">{$_('prisma.visibility.public')}</SelectOption>
 			<SelectOption value="PRIVATE">{$_('prisma.visibility.private')}</SelectOption>
 		</Select>
@@ -288,7 +315,9 @@
 		type="datetime-local"
 		min={DateTime.now().toFormat("yyyy-MM-dd'T'HH:mm")}
 		max={DateTime.now().plus({ years: 3 }).toFormat("yyyy-MM-dd'T'HH:mm")}
-	/>
+	>
+		<PhCalendarBlank slot="icon" />
+	</TextInput>
 
 	<TextInput
 		id="endDate"
@@ -297,7 +326,9 @@
 		type="datetime-local"
 		min={DateTime.now().toFormat("yyyy-MM-dd'T'HH:mm")}
 		max={DateTime.now().plus({ years: 3 }).toFormat("yyyy-MM-dd'T'HH:mm")}
-	/>
+	>
+		<PhCalendarBlankFill slot="icon" />
+	</TextInput>
 
 	<TextInput
 		id="enrollmentStartDate"
@@ -306,7 +337,9 @@
 		type="datetime-local"
 		min={minEnrollmentStartDate}
 		max={maxEnrollmentDate}
-	/>
+	>
+		<PhCalendarPlus slot="icon" />
+	</TextInput>
 
 	<TextInput
 		id="enrollmentEndDate"
@@ -315,7 +348,9 @@
 		type="datetime-local"
 		min={minEnrollmentEndDate}
 		max={maxEnrollmentDate}
-	/>
+	>
+		<PhCalendarPlusFill slot="icon" />
+	</TextInput>
 
 	<Separator>
 		{$_('a-new.form.separators.additional-info')}

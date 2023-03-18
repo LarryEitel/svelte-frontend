@@ -31,20 +31,29 @@
 			{textLength || 0}/{maxLength}
 		</div>
 	</div>
-	<textarea
-		data-testid={`${id}-textarea`}
-		{placeholder}
-		class={`w-full ${inputStyles({
-			intent: error ? 'error' : variants.intent,
-			height: 'textarea'
-		})}`}
-		maxlength={maxLength}
-		bind:this={element}
-		on:input={onInput}
-		name={id}
-		{id}
-		cols="30"
-		rows="10"
-	/>
+	<div class="flex w-full">
+		{#if $$slots.icon}
+			<div class="flex flex-col rounded-l-md bg-base-100">
+				<slot name="icon" />
+				<div class="h-full" />
+			</div>
+		{/if}
+		<textarea
+			data-testid={`${id}-textarea`}
+			{placeholder}
+			class={`w-full ${inputStyles({
+				intent: error ? 'error' : variants.intent,
+				height: 'textarea'
+			})}`}
+			class:rounded-l-none={$$slots.icon}
+			maxlength={maxLength}
+			bind:this={element}
+			on:input={onInput}
+			name={id}
+			{id}
+			cols="30"
+			rows="10"
+		/>
+	</div>
 	<ErrorSpan {error} {id} />
 </div>

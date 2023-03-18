@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PhMapPin from '~icons/ph/map-pin';
 	import { loadGooglePlacesLibrary } from '$lib/utils';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { inputStyles } from './text-styles';
@@ -16,6 +17,7 @@
 
 	onMount(() => {
 		loadGooglePlacesLibrary(() => {
+			// eslint-disable-next-line no-undef
 			const autocomplete = new google.maps.places.Autocomplete(inputField, {
 				fields: ['formatted_address']
 			});
@@ -26,7 +28,7 @@
 				// were NOT given location data. I only want to propagate the event if we
 				// truly received location data from Google.
 				// See the `Type something, no suggestions, hit Enter` test case.
-				if (place.hasOwnProperty('formatted_address')) {
+				if (place?.formatted_address) {
 					setSelectedLocation(inputField.value);
 				}
 			});
@@ -94,10 +96,11 @@
 </script>
 
 <TextInput {id} {label} {error}>
+	<PhMapPin slot="icon" />
 	<input
 		{placeholder}
 		bind:this={inputField}
-		class={inputStyles({ intent: error ? 'error' : 'primary' })}
+		class={inputStyles({ intent: error ? 'error' : 'primary' }) + ' rounded-l-none'}
 		on:change={onChange}
 		on:keydown={onKeyDown}
 		{id}

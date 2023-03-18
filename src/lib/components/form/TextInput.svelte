@@ -31,17 +31,22 @@
 	{/if}
 	<div class="flex w-full gap-2">
 		<slot name="left" />
-		<slot>
-			<input
-				bind:this={element}
-				maxlength="255"
-				class={inputStyles({ intent: error ? 'error' : variants.intent })}
-				data-testid={`${id}-input`}
-				name={id}
-				{type}
-				{...$$restProps}
-			/>
-		</slot>
+		<div class="flex w-full">
+			<slot name="icon" />
+			<slot>
+				<input
+					bind:this={element}
+					maxlength="255"
+					class={inputStyles({ intent: error ? 'error' : variants.intent })}
+					class:rounded-l-none={$$slots.icon}
+					data-testid={`${id}-input`}
+					name={id}
+					{id}
+					{type}
+					{...$$restProps}
+				/>
+			</slot>
+		</div>
 		{#if isInitialTypePassword}
 			<Button variants={{ intent: 'ghost' }} on:click={togglePassword}>
 				{#if isPasswordHidden}
@@ -55,3 +60,9 @@
 	</div>
 	<ErrorSpan {error} {id} />
 </div>
+
+<style>
+	:global([slot='icon']) {
+		@apply h-10 w-10 cursor-auto rounded-l-md bg-base-100 p-2.5;
+	}
+</style>

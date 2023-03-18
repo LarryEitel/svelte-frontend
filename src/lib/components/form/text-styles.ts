@@ -13,7 +13,7 @@ export const inputStyles = cva(
 			},
 			height: {
 				default: 'h-[2.5rem]',
-				textarea: 'h-[10rem]'
+				textarea: 'h-[10rem] min-h-[2.5rem]'
 			}
 		},
 		defaultVariants: {

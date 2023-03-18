@@ -11,6 +11,6 @@ test('creates project without selecting a program', async ({ page }) => {
 	await page.getByRole('option', { name: 'CBM - Centro Universitário Barão de Mauá' }).click();
 	await page.getByTestId('submit-btn').click();
 
-	expect(page.getByTestId('toast-error')).toHaveCount(0);
-	expect(page.getByTestId('toast-success')).toHaveCount(1);
+	await expect(page.getByTestId('toast-error')).toHaveCount(0);
+	await expect(page.getByTestId('toast-success')).toHaveCount(1);
 });
