@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PhEnvelopeSimple from '~icons/ph/envelope-simple';
 	import PhCalendarPlusFill from '~icons/ph/calendar-plus-fill';
 	import PhCalendarPlus from '~icons/ph/calendar-plus';
 	import PhCalendarBlankFill from '~icons/ph/calendar-blank-fill';
@@ -33,13 +34,6 @@
 	const { form, errors, isSubmitting, data, resetField, touched } = createForm<
 		z.infer<typeof createActivitySchema>
 	>({
-		initialValues: {
-			title: 'title',
-			description: 'description',
-			shortDescription: 'shortDescription',
-			visibility: 'PUBLIC',
-			facultyId: 'facultyid'
-		},
 		onSubmit: async (values) => {
 			try {
 				values = {
@@ -61,9 +55,6 @@
 		},
 		validate: validateSchema(createActivitySchema)
 	});
-
-	$: console.log($errors.locationPresential);
-	$: console.log($data.locationPresential);
 
 	// Faculties select
 	let faculties: Faculty[] = [];
@@ -122,12 +113,11 @@
 		return DateTime.fromISO(date).toFormat(format);
 	};
 
-	$: minEnrollmentStartDate = formatToDateInput($data.startDate);
+	$: minEnrollmentStartDate = formatToDateInput();
 	$: minEnrollmentEndDate = formatToDateInput($data.enrollmentStartDate);
-
-	$: maxEnrollmentDate = $data.endDate
-		? formatToDateInput($data.endDate)
-		: formatToDateInput(DateTime.now().plus({ years: 3 }).toISO());
+	$: minStartDate = formatToDateInput($data.enrollmentEndDate);
+	$: minEndDate = formatToDateInput($data.startDate);
+	const maxDate = formatToDateInput(DateTime.now().plus({ years: 3 }).toISO());
 </script>
 
 <Heading>{$_('a-new.title')}</Heading>
@@ -313,34 +303,12 @@
 	</Separator>
 
 	<TextInput
-		id="startDate"
-		label={$_('a-new.form.start-date-label')}
-		error={$errors.startDate?.[0]}
-		type="datetime-local"
-		min={DateTime.now().toFormat("yyyy-MM-dd'T'HH:mm")}
-		max={DateTime.now().plus({ years: 3 }).toFormat("yyyy-MM-dd'T'HH:mm")}
-	>
-		<PhCalendarBlank slot="icon" />
-	</TextInput>
-
-	<TextInput
-		id="endDate"
-		label={$_('a-new.form.end-date-label')}
-		error={$errors.endDate?.[0]}
-		type="datetime-local"
-		min={DateTime.now().toFormat("yyyy-MM-dd'T'HH:mm")}
-		max={DateTime.now().plus({ years: 3 }).toFormat("yyyy-MM-dd'T'HH:mm")}
-	>
-		<PhCalendarBlankFill slot="icon" />
-	</TextInput>
-
-	<TextInput
 		id="enrollmentStartDate"
 		label={$_('a-new.form.enrollment-start-date-label')}
 		error={$errors.enrollmentStartDate?.[0]}
 		type="datetime-local"
 		min={minEnrollmentStartDate}
-		max={maxEnrollmentDate}
+		max={maxDate}
 	>
 		<PhCalendarPlus slot="icon" />
 	</TextInput>
@@ -351,9 +319,31 @@
 		error={$errors.enrollmentEndDate?.[0]}
 		type="datetime-local"
 		min={minEnrollmentEndDate}
-		max={maxEnrollmentDate}
+		max={maxDate}
 	>
 		<PhCalendarPlusFill slot="icon" />
+	</TextInput>
+
+	<TextInput
+		id="startDate"
+		label={$_('a-new.form.start-date-label')}
+		error={$errors.startDate?.[0]}
+		type="datetime-local"
+		min={minStartDate}
+		max={maxDate}
+	>
+		<PhCalendarBlank slot="icon" />
+	</TextInput>
+
+	<TextInput
+		id="endDate"
+		label={$_('a-new.form.end-date-label')}
+		error={$errors.endDate?.[0]}
+		type="datetime-local"
+		min={minEndDate}
+		max={maxDate}
+	>
+		<PhCalendarBlankFill slot="icon" />
 	</TextInput>
 
 	<Separator>
@@ -365,7 +355,9 @@
 		label={$_('a-new.form.contact-label')}
 		error={$errors.contact?.[0]}
 		placeholder={$_('a-new.form.contact-placeholder')}
-	/>
+	>
+		<PhEnvelopeSimple slot="icon" />
+	</TextArea>
 
 	<Button
 		data-testid="submit-btn"

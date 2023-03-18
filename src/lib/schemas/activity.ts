@@ -20,18 +20,6 @@ export const createActivitySchema = z
 		enrollmentEndDate: base.dates.future,
 		contact: base.strings.largeOptional
 	})
-	.superRefine(({ startDate, endDate }, ctx) => {
-		const end = DateTime.fromISO(endDate);
-		const start = DateTime.fromISO(startDate);
-
-		if (start.diff(end).milliseconds > 0) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'zod.date.start-after-end',
-				path: ['startDate']
-			});
-		}
-	})
 	.superRefine(({ modality, locationPresential, locationRemote }, ctx) => {
 		if (modality !== 'REMOTE' && !locationPresential) {
 			ctx.addIssue({
@@ -55,36 +43,6 @@ export const createActivitySchema = z
 		const enrollmentEnd = DateTime.fromISO(enrollmentEndDate);
 		const end = DateTime.fromISO(endDate);
 
-		// check if enrollment start and enrollment end dates are between start and end dates
-		if (enrollmentStart.diff(start).milliseconds < 0) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'zod.date.enrollment-start-before-start',
-				path: ['enrollmentStartDate']
-			});
-		}
-		if (enrollmentStart.diff(end).milliseconds > 0) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'zod.date.enrollment-start-after-end',
-				path: ['enrollmentStartDate']
-			});
-		}
-		if (enrollmentEnd.diff(start).milliseconds < 0) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'zod.date.enrollment-end-before-start',
-				path: ['enrollmentEndDate']
-			});
-		}
-		if (enrollmentEnd.diff(end).milliseconds > 0) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'zod.date.enrollment-end-after-end',
-				path: ['enrollmentEndDate']
-			});
-		}
-
 		// check if enrollment start date is after now
 		if (enrollmentStart.diffNow().milliseconds < 0) {
 			ctx.addIssue({
@@ -99,7 +57,25 @@ export const createActivitySchema = z
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				message: 'zod.date.enrollment-start-after-enrollment-end',
-				path: ['enrollmentStartDate']
+				path: ['enrollmentEndDate']
+			});
+		}
+
+		// check if start date is after enrollment end date
+		if (enrollmentEnd.diff(start).milliseconds > 0) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'zod.date.start-after-enrollment-end',
+				path: ['startDate']
+			});
+		}
+
+		// check if end date is after start date
+		if (start.diff(end).milliseconds > 0) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'zod.date.start-after-end',
+				path: ['endDate']
 			});
 		}
 	});

@@ -63,6 +63,6 @@
 
 <style>
 	:global([slot='icon']) {
-		@apply h-10 w-10 cursor-auto rounded-l-md bg-base-100 p-2.5;
+		@apply h-10 w-10 cursor-auto rounded-l-md bg-base-100 p-2;
 	}
 </style>

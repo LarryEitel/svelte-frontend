@@ -27,14 +27,11 @@
     },
     "date": {
       "invalid": "A data parece inválida",
-      "start-after-end": "A data de início deve ser anterior à data de término",
+      "start-after-end": "A data de término deve ser depois da data de início da atividade",
       "past": "A data e hora estão no passado",
-      "enrollment-start-after-end": "As inscrições devem começar antes do término da atividade",
-      "enrollment-start-before-start": "As inscrições devem começar depois do início da atividade",
-      "enrollment-end-after-end": "As inscrições devem terminar antes do término da atividade",
-      "enrollment-end-before-start": "As inscrições devem terminar depois do início da atividade",
       "enrollment-start-before-now": "As inscrições devem começar no futuro",
-      "enrollment-start-after-enrollment-end": "As inscrições devem começar antes do término das inscrições"
+      "enrollment-start-after-enrollment-end": "As inscrições não podem terminar antes de começarem",
+      "start-after-enrollment-end": "A atividade deve começar depois do término das inscrições"
     }
   }
 }
