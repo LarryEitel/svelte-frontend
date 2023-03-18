@@ -94,7 +94,7 @@
 		"seed": "prisma/seed.sh"
 	},
 	"lint-staged": {
-		"*{.svelte,.ts,.html,.css,.json}": [
+		"*{.svelte,.ts,.html,.css,.json,.yml}": [
 			"prettier --plugin-search-dir . --write",
 			"eslint --fix"
 		]
