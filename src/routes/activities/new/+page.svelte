@@ -30,7 +30,7 @@
 	import { DateTime } from 'luxon';
 	import { fade } from 'svelte/transition';
 
-	const { form, errors, isSubmitting, data, resetField } = createForm<
+	const { form, errors, isSubmitting, data, resetField, touched } = createForm<
 		z.infer<typeof createActivitySchema>
 	>({
 		initialValues: {
@@ -61,6 +61,9 @@
 		},
 		validate: validateSchema(createActivitySchema)
 	});
+
+	$: console.log($errors.locationPresential);
+	$: console.log($data.locationPresential);
 
 	// Faculties select
 	let faculties: Faculty[] = [];
@@ -183,6 +186,7 @@
 				label={$_('a-new.form.location.presential.label')}
 				placeholder={$_('a-new.form.location.presential.placeholder')}
 				bind:address={$data.locationPresential}
+				bind:touched={$touched.locationPresential}
 			/>
 		</div>
 	{/if}

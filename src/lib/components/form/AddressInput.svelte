@@ -10,6 +10,7 @@
 	export let placeholder: string;
 	export let address: string | undefined;
 	export let error = '';
+	export let touched = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -103,6 +104,7 @@
 		class={inputStyles({ intent: error ? 'error' : 'primary' }) + ' rounded-l-none'}
 		on:change={onChange}
 		on:keydown={onKeyDown}
+		on:focus={() => (touched = true)}
 		{id}
 		data-testid={`${id}-input`}
 	/>

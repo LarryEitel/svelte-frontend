@@ -33,7 +33,7 @@ export const createActivitySchema = z
 		}
 	})
 	.superRefine(({ modality, locationPresential, locationRemote }, ctx) => {
-		if (modality === 'PRESENTIAL' && !locationPresential) {
+		if (modality !== 'REMOTE' && !locationPresential) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				message: 'zod.string.required',
@@ -41,7 +41,7 @@ export const createActivitySchema = z
 			});
 		}
 
-		if (modality === 'REMOTE' && !locationRemote) {
+		if (modality !== 'PRESENTIAL' && !locationRemote) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				message: 'zod.string.required',
