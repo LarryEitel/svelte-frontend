@@ -24,11 +24,13 @@
 		"prepare": "husky install && prisma generate && svelte-kit sync",
 		"generate-apis": "openapi-generator-cli generate",
 		"docker:rm": "docker-compose down",
-		"test:db": "docker-compose up"
+		"test:db": "docker-compose up",
+		"release": "changeset publish"
 	},
 	"devDependencies": {
 		"@auth/core": "^0.2.5",
 		"@auth/sveltekit": "^0.3.0",
+		"@changesets/cli": "^2.26.0",
 		"@felte/validator-zod": "^1.0.13",
 		"@iconify/json": "^2.2.25",
 		"@openapitools/openapi-generator-cli": "^2.5.2",
