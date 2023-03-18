@@ -11,13 +11,14 @@ export const createActivitySchema = z
 		locationRemote: base.strings.url.optional(),
 		projectId: base.selects.default,
 		facultyId: base.selects.default,
-		prerequisites: base.strings.large,
+		prerequisites: base.strings.largeOptional,
 		visibility: base.enums.visibilityType,
 		modality: base.enums.modalityType,
 		startDate: base.dates.future,
 		endDate: base.dates.future,
 		enrollmentStartDate: base.dates.future,
-		enrollmentEndDate: base.dates.future
+		enrollmentEndDate: base.dates.future,
+		contact: base.strings.largeOptional
 	})
 	.superRefine(({ startDate, endDate }, ctx) => {
 		const end = DateTime.fromISO(endDate);

@@ -7,9 +7,16 @@ export const MAX_LENGTH_LARGE_STRINGS = 1000;
 const stringDefault = z
 	.string({ required_error: 'zod.string.required', invalid_type_error: 'zod.string.required' })
 	.min(1, 'zod.string.required');
+const stringOptional = z.string();
 
 const stringShort = stringDefault.max(MAX_LENGTH_SHORT_STRINGS, 'zod.string.max');
 const stringLarge = stringDefault.max(MAX_LENGTH_LARGE_STRINGS, 'zod.string.max');
+const stringShortOptional = stringOptional
+	.max(MAX_LENGTH_SHORT_STRINGS, 'zod.string.max')
+	.optional();
+const stringLargeOptional = stringOptional
+	.max(MAX_LENGTH_LARGE_STRINGS, 'zod.string.max')
+	.optional();
 
 const baseDatetimeTransform = stringDefault.transform((v, ctx) => {
 	if (!DateTime.fromISO(v).isValid) {
@@ -59,6 +66,8 @@ export const base = {
 	strings: {
 		short: stringShort,
 		large: stringLarge,
+		shortOptional: stringShortOptional,
+		largeOptional: stringLargeOptional,
 		email: stringShort.email('zod.email.invalid'),
 		password: z
 			.string()

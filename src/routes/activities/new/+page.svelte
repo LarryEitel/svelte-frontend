@@ -25,8 +25,7 @@
 			description: 'description',
 			shortDescription: 'shortDescription',
 			visibility: 'PUBLIC',
-			facultyId: 'facultyid',
-			prerequisites: 'prerequisites'
+			facultyId: 'facultyid'
 		},
 		onSubmit: async (values) => {
 			try {
@@ -316,6 +315,17 @@
 		type="datetime-local"
 		min={minEnrollmentEndDate}
 		max={maxEnrollmentDate}
+	/>
+
+	<Separator>
+		{$_('a-new.form.separators.additional-info')}
+	</Separator>
+
+	<TextArea
+		id="contact"
+		label={$_('a-new.form.contact-label')}
+		error={$errors.contact?.[0]}
+		placeholder={$_('a-new.form.contact-placeholder')}
 	/>
 
 	<Button

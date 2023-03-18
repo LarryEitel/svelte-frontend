@@ -13,7 +13,8 @@
       "use-project-faculty": "Selecionar a mesma universidade do projeto",
       "separators": {
         "basic": "Informações Básicas",
-        "dates": "Datas e prazos"
+        "dates": "Datas e prazos",
+        "additional-info": "Informações adicionais"
       },
       "prerequisites-label": "Pré requisitos para inscrição na atividade",
       "prerequisites-placeholder": "Ter conhecimentos específicos em alguma área, ter cursado alguma cadeira, trazer algum material...",
@@ -37,7 +38,9 @@
         }
       },
       "enrollment-start-date-label": "Data e hora de início do período de inscrições",
-      "enrollment-end-date-label": "Data e hora de término do período de inscrições"
+      "enrollment-end-date-label": "Data e hora de término do período de inscrições",
+      "contact-placeholder": "Informações de contato. Por exemplo: nome do organizador ou instrutores, número de telefone ou email...",
+      "contact-label": "Contato"
     },
     "toast": {
       "success": "Atividade criada com sucesso!"
