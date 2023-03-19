@@ -1,0 +1,50 @@
+name: 🌱 Sync db dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: 🔎 Check if schema.prisma changed
+    environment: 'Preview'
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - id: check
+        name: Prisma schema changed check
+        run: |
+          status="skip"
+          if git diff-tree --no-commit-id --name-only ${{ github.sha }} -r | grep schema.prisma
+          then
+            status="sync"
+          fi
+          echo "status=$status" >> $GITHUB_OUTPUT
+
+  sync:
+    name: 🔄 Sync
+    needs: check
+    if: needs.check.outputs.status == 'sync'
+    environment: 'Preview'
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Sync dev schema
+        run: pnpm prisma:ci
