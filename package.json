@@ -1,6 +1,6 @@
 {
 	"name": "@extensionly-gh/svelte-frontend",
-	"version": "0.0.1",
+	"version": "0.0.2-next.0",
 	"scripts": {
 		"dev": "doppler run -- vite dev --open",
 		"build": "doppler run -- vite build",

@@ -1,8 +1,10 @@
 {
-	"mode": "pre",
-	"tag": "next",
-	"initialVersions": {
-		"@extensionly-gh/svelte-frontend": "0.0.1"
-	},
-	"changesets": []
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@extensionly-gh/svelte-frontend": "0.0.1"
+  },
+  "changesets": [
+    "clever-pillows-build"
+  ]
 }
