@@ -7,6 +7,8 @@ env:
   GOOGLE_WEB_CLIENT_SECRET: ${{ secrets.GOOGLE_WEB_CLIENT_SECRET }}
   SENDINBLUE_API_KEY: ${{ secrets.SENDINBLUE_API_KEY }}
   DOPPLER_ENVIRONMENT: ${{ secrets.DOPPLER_ENVIRONMENT }}
+  # we call `pnpm playwright install` instead
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
 on:
   push:
@@ -19,44 +21,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  install:
+  lint:
+    name: 🧹 Lint
     timeout-minutes: 30
     runs-on: ubuntu-latest
-    name: 📦 Install
-    strategy:
-      matrix:
-        node-version: [18]
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2.2.4
       - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package.json').devDependencies['@playwright/test'].replaceAll('^', ''))")" >> $GITHUB_ENV
-
-      - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - run: npx playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: npx playwright install-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+          node-version-file: '.nvmrc'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+      - run: pnpm run check
 
   test:
     name: 🧪 Test (${{ matrix.shard }}/${{ strategy.job-total }})
-    needs: install
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -68,7 +49,7 @@ jobs:
       - uses: pnpm/action-setup@v2.2.4
       - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Get installed Playwright version
         id: playwright-version
@@ -84,6 +65,11 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright
+        run: pnpm playwright install
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
