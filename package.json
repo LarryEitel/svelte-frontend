@@ -1,7 +1,6 @@
 {
-	"name": "svelte-frontend",
+	"name": "@extensionly-gh/svelte-frontend",
 	"version": "0.0.1",
-	"private": true,
 	"scripts": {
 		"dev": "doppler run -- vite dev --open",
 		"build": "doppler run -- vite build",
@@ -30,6 +29,7 @@
 	"devDependencies": {
 		"@auth/core": "^0.2.5",
 		"@auth/sveltekit": "^0.3.0",
+		"@changesets/changelog-github": "^0.4.8",
 		"@changesets/cli": "^2.26.0",
 		"@felte/validator-zod": "^1.0.13",
 		"@iconify/json": "^2.2.25",
@@ -100,8 +100,16 @@
 		]
 	},
 	"engines": {
-		"node": ">=18.0.0 <19.0.0",
-		"pnpm": ">=7.0.0 <8.0.0"
+		"node": ">=18",
+		"pnpm": ">=7"
 	},
-	"packageManager": "pnpm@7.29.3"
+	"packageManager": "pnpm@7.30.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/extensionly-gh/svelte-frontend.git"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com",
+		"access": "restricted"
+	}
 }

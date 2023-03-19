@@ -1,4 +1,5 @@
-name: pnpm test workflow
+name: 👷 CI
+
 env:
   AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -6,14 +7,17 @@ env:
   GOOGLE_WEB_CLIENT_SECRET: ${{ secrets.GOOGLE_WEB_CLIENT_SECRET }}
   SENDINBLUE_API_KEY: ${{ secrets.SENDINBLUE_API_KEY }}
   DOPPLER_ENVIRONMENT: ${{ secrets.DOPPLER_ENVIRONMENT }}
+
 on:
   push:
-    branches-ignore:
+    branches:
       - main
-      - production
+  pull_request:
+
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
+
 jobs:
   install:
     timeout-minutes: 60
@@ -43,16 +47,17 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - run: npx playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - run: npx playwright install-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
+
   test:
     name: 🧪 Test (${{ matrix.shard }}/${{ strategy.job-total }})
     needs: install
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -60,9 +65,7 @@ jobs:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      - uses: pnpm/action-setup@v2.2.4
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -80,7 +83,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start

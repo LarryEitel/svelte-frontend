@@ -16,3 +16,6 @@ vite*.mjs
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+#changesets
+.changesets
