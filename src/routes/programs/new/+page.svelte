@@ -1,4 +1,8 @@
 <script lang="ts">
+	import PhUsersThree from '~icons/ph/users-three';
+	import PhGraduationCap from '~icons/ph/graduation-cap';
+	import PhTextAlignCenter from '~icons/ph/text-align-center';
+	import PhTextT from '~icons/ph/text-t';
 	import { page } from '$app/stores';
 	import { Button, SettingsCard, TextInput } from '$lib/components';
 	import { Select, SelectOption, TextArea } from '$lib/components/form';
@@ -52,13 +56,18 @@
 		id="title"
 		label={$_('p-new.form.title-label')}
 		placeholder={$_('p-new.form.title-placeholder')}
-	/>
+	>
+		<PhTextT slot="icon" />
+	</TextInput>
 	<TextArea
 		error={$errors.description?.[0]}
 		id="description"
 		label={$_('p-new.form.description-label')}
 		placeholder={$_('p-new.form.description-placeholder')}
-	/>
+	>
+		<PhTextAlignCenter slot="icon" />
+	</TextArea>
+
 	<Select
 		id="facultyId"
 		label={$_('p-new.form.faculty-label')}
@@ -68,6 +77,7 @@
 		on:click={() => (fetchFacultiesPromise ??= fetchFaculties())}
 		info={$_('p-new.form.faculty-info')}
 	>
+		<PhGraduationCap slot="icon" />
 		{#await fetchFacultiesPromise}
 			{#each Array(10) as _}
 				<SelectOption skeleton />
@@ -93,6 +103,7 @@
 			? $_('prisma.visibility.' + selectedVisibility?.toLowerCase())
 			: ''}
 	>
+		<PhUsersThree slot="icon" />
 		<SelectOption value="PUBLIC">{$_('prisma.visibility.public')}</SelectOption>
 		<SelectOption value="PRIVATE">{$_('prisma.visibility.private')}</SelectOption>
 	</Select>
