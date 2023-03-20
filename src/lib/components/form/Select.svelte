@@ -11,7 +11,7 @@
 	export let label = '';
 	export let error = '';
 	export let id: string;
-	export let selected: any = null;
+	export let selected: unknown = null;
 	export let buttonText = '';
 	export let variants: VariantProps<typeof selectStyle> = {};
 	export let info = '';

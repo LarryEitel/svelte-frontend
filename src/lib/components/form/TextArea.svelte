@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { VariantProps } from 'class-variance-authority';
 	import { inputStyles } from './text-styles';
-	import { _ } from 'svelte-i18n';
 	import ErrorSpan from './ErrorSpan.svelte';
 	import { MAX_LENGTH_LARGE_STRINGS } from '$lib/schemas';
 

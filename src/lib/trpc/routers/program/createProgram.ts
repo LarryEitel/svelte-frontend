@@ -9,7 +9,7 @@ export const createProgram = authProcedure
 			data: {
 				title: input.title,
 				description: input.description,
-				visibility: input.visibility,
+				visibility: input.visibility === '' ? undefined : input.visibility,
 				Faculty: {
 					connect: {
 						id: input.facultyId

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { ButtonWithTimer } from '$lib/components/button';
-	import type { Verification } from '@prisma/client';
 	import { _ } from 'svelte-i18n';
 	import { DateTime } from 'luxon';
 	import { Notice } from '$lib/components/notice';

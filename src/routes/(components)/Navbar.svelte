@@ -49,7 +49,7 @@
 			<div class="hidden items-center gap-2 rounded-md bg-base-200 p-2 sm:flex">
 				<Avatar
 					data-testid="user-avatar"
-					src={$page.data.session.user?.image || $page.data.session.user?.name}
+					src={$page.data.session.user?.image || $page.data.session.user?.name || 'A'}
 					size="sm"
 				/>
 				<Menu trigger={$page.data.session.user.name} triggerId="user-menu" items={userMenuItems} />

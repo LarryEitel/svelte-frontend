@@ -12,9 +12,7 @@
 	import type { z } from 'zod';
 	import { page } from '$app/stores';
 
-	const { form, errors, isSubmitting, data, isDirty } = createForm<
-		z.infer<typeof passwordCreateSchema>
-	>({
+	const { form, errors, isSubmitting, isDirty } = createForm<z.infer<typeof passwordCreateSchema>>({
 		onSubmit: async (values) => {
 			try {
 				await trpc($page).user.createPassword.mutate(values);

@@ -14,7 +14,7 @@
 	import type { AppRouterOutput } from '$lib/trpc/router';
 	import { handleErrorInClient } from '$lib/utils';
 	import { validateSchema } from '@felte/validator-zod';
-	import type { EventVisibility, Faculty, Program } from '@prisma/client';
+	import type { EventVisibility, Faculty } from '@prisma/client';
 	import { createForm } from 'felte';
 	import { _ } from 'svelte-i18n';
 	import type { z } from 'zod';

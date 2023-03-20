@@ -14,7 +14,7 @@
 
 	export let data: PageData;
 
-	const { form, errors, isSubmitting, isDirty, reset } = createForm<
+	const { form, errors, isSubmitting, isDirty } = createForm<
 		z.infer<typeof formPasswordResetSchema>
 	>({
 		onSubmit: async ({ newPwd, confirmPwd }) => {

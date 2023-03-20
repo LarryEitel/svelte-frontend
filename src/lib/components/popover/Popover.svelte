@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Popover, PopoverButton, PopoverPanel, Transition } from '@rgossiaux/svelte-headlessui';
-	import { createPopperActions, type PopperOptions } from 'svelte-popperjs';
+	import { Popover, PopoverButton, PopoverPanel } from '@rgossiaux/svelte-headlessui';
+	import { createPopperActions } from 'svelte-popperjs';
 
 	export let placement:
 		| 'auto'

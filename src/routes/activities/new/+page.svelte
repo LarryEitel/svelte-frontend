@@ -34,15 +34,15 @@
 	const { form, errors, isSubmitting, data, resetField, touched } = createForm<
 		z.infer<typeof createActivitySchema>
 	>({
-		onSubmit: async (values) => {
+		onSubmit: async () => {
 			try {
-				values = {
-					...values,
-					startDate: DateTime.fromISO(values.startDate).toISO(),
-					endDate: DateTime.fromISO(values.endDate).toISO(),
-					enrollmentStartDate: DateTime.fromISO(values.enrollmentStartDate).toISO(),
-					enrollmentEndDate: DateTime.fromISO(values.enrollmentEndDate).toISO()
-				};
+				// values = {
+				// 	...values,
+				// 	startDate: DateTime.fromISO(values.startDate).toISO(),
+				// 	endDate: DateTime.fromISO(values.endDate).toISO(),
+				// 	enrollmentStartDate: DateTime.fromISO(values.enrollmentStartDate).toISO(),
+				// 	enrollmentEndDate: DateTime.fromISO(values.enrollmentEndDate).toISO()
+				// };
 
 				// await trpc($page).project.createProject.mutate(values);
 				toastSuccess($_('a-new.toast.success'));

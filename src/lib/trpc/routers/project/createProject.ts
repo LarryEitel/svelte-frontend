@@ -9,7 +9,7 @@ export const createProject = authProcedure
 		const data: Prisma.ProjectCreateInput = {
 			title: input.title,
 			description: input.description,
-			visibility: input.visibility,
+			visibility: input.visibility === '' ? undefined : input.visibility,
 			acceptStudentsProposals: input.acceptStudentsProposals,
 			Program: {
 				connect: {

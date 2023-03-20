@@ -1,8 +1,7 @@
 import { browser } from '$app/environment';
 import { signIn } from '@auth/sveltekit/client';
-import type { PageLoad } from './$types';
 
-export const load: PageLoad = async (page) => {
+export const load = async (page) => {
 	if (browser) {
 		document.body.style.overflow = 'hidden';
 		if (!page.url.searchParams.get('close')) {

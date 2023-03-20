@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
 	import CreatePasswordForm from './_CreatePasswordForm.svelte';
 	import DeleteAccount from './_DeleteAccount.svelte';

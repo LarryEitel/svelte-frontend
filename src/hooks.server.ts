@@ -52,10 +52,12 @@ const handleSvelteKitAuth: Handle = SvelteKitAuth({
 		error: '/'
 	},
 	callbacks: {
-		async session(params) {
+		async session({ session, token }) {
 			// Add user id to session object which is sent to the client
-			params.session.user.id = params.token!.sub!;
-			return params.session;
+			if (session.user) {
+				session.user.id = token.sub;
+			}
+			return session;
 		}
 	},
 	providers: [
@@ -123,9 +125,13 @@ const handleSvelteKitAuth: Handle = SvelteKitAuth({
 		// @ts-expect-error SvelteKitAuth is still in experimental
 		CredentialsProvider({
 			async authorize(cred) {
+				if (!cred) {
+					throw new Error('exceptions.users.user-not-found');
+				}
+
 				const user = await prisma.user.findUnique({
 					where: {
-						email: cred?.email
+						email: cred.email
 					}
 				});
 
@@ -138,7 +144,7 @@ const handleSvelteKitAuth: Handle = SvelteKitAuth({
 					throw new Error('exceptions.users.password-not-set');
 				}
 
-				if (!(await comparePassword(cred!.password, user.password))) {
+				if (!(await comparePassword(cred.password, user.password))) {
 					throw new Error('exceptions.users.user-not-found');
 				}
 

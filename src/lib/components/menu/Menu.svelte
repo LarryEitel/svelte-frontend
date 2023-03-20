@@ -3,6 +3,7 @@
 	import { Button } from '..';
 	import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
 	import { createPopperActions } from 'svelte-popperjs';
+	import type { ComponentType, SvelteComponentTyped } from 'svelte';
 
 	const [popperRef, popperContent] = createPopperActions({
 		placement: 'auto',
@@ -22,7 +23,7 @@
 	export let items: {
 		id?: string;
 		text: string;
-		icon: any;
+		icon: ComponentType<SvelteComponentTyped>;
 		classes?: string;
 		to?: string;
 		action?: () => void;

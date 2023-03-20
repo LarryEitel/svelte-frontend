@@ -10,7 +10,7 @@ async function globalSetup(config: FullConfig) {
 	try {
 		await context.tracing.start({ screenshots: true, snapshots: true });
 
-		await page.goto(baseURL!);
+		await page.goto(baseURL || 'https://www.localhost:5174');
 		await page.getByTestId('cookie-banner-btn').click();
 		await page.getByTestId('nav-signin-btn').click();
 		await page.getByTestId('signin-email-input').fill('ext-user-dev@mailinator.com');

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { VariantProps } from 'class-variance-authority';
-	import { _ } from 'svelte-i18n';
 	import Button from '../button/Button.svelte';
 	import IconEyeClosed from '~icons/ph/eye-closed';
 	import IconEyeOpened from '~icons/ph/eye';
@@ -60,9 +59,3 @@
 	</div>
 	<ErrorSpan {error} {id} />
 </div>
-
-<style>
-	:global([slot='icon']) {
-		@apply h-10 w-10 cursor-auto rounded-l-md bg-base-100 p-2;
-	}
-</style>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { ListboxOption } from '@rgossiaux/svelte-headlessui';
 	import IconCheck from '~icons/ph/check-bold';
-	import { _ } from 'svelte-i18n';
 
 	export let skeleton = false;
 	export let value: string | number = '';

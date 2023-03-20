@@ -2,7 +2,6 @@
 	import type { AppRouterOutput } from '$lib/trpc/router';
 	import { DateFormats } from '$lib/utils';
 	import { getDateStatus } from '$lib/utils/activity.utils';
-	import type { Activity } from '@prisma/client';
 	import { formatRelative } from 'date-fns';
 	import enUS from 'date-fns/locale/en-US/index.js';
 	import ptBR from 'date-fns/locale/pt-BR/index.js';

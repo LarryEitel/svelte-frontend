@@ -52,7 +52,7 @@
 				data-testid="delete-account-dialog-confirm-button"
 				type="submit"
 				isLoading={$isSubmitting}
-				disabled={$data.emailDelete !== $page.data.session?.user.email}
+				disabled={$data.emailDelete !== $page.data.session?.user?.email}
 				variants={{ intent: 'danger' }}
 			>
 				{$_('r-acc.delete.dialog.confirm')}

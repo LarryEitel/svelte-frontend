@@ -21,13 +21,15 @@ export const getAccountData = authProcedure.query(async ({ ctx }) => {
 			}
 		}
 	});
+
 	const isPasswordEmpty = user.password === null;
 
-	// @ts-expect-error - we don't want to send the password to the client
-	delete user.password;
-
 	return {
-		...user,
+		name: user.name,
+		email: user.email,
+		phone: user.phone,
+		image: user.image,
+		Verification: user.Verification,
 		isPasswordEmpty
 	};
 });

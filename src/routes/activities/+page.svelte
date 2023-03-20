@@ -27,7 +27,7 @@
 	let activitiesLoading = false;
 	let hasMore = true;
 
-	const { form, data: formData } = createForm<z.infer<typeof searchBarSchema>>({
+	const { form } = createForm<z.infer<typeof searchBarSchema>>({
 		initialValues: {
 			search: data.query
 		},

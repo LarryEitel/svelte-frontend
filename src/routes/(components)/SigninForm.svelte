@@ -35,11 +35,14 @@
 			});
 			// If the request fails, SveltekitAuth returns an object with a URL
 			// which has the error thrown as a query parameter.
-			try {
-				const { url } = await response?.json();
-				const errorMessage = url?.split('error=')[1];
-				toastError($_(errorMessage));
-			} catch (e) {}
+			if (response) {
+				const { url } = await response.json();
+				if (url) {
+					const errorMessage = url.split('error=')[1];
+					toastError($_(errorMessage));
+					return;
+				}
+			}
 		},
 		validate: validateSchema(signinSchema)
 	});

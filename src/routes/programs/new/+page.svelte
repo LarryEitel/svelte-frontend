@@ -4,7 +4,7 @@
 	import PhTextAlignCenter from '~icons/ph/text-align-center';
 	import PhTextT from '~icons/ph/text-t';
 	import { page } from '$app/stores';
-	import { Button, SettingsCard, TextInput } from '$lib/components';
+	import { Button, TextInput } from '$lib/components';
 	import { Select, SelectOption, TextArea } from '$lib/components/form';
 	import { Heading } from '$lib/components/text';
 	import { toastSuccess } from '$lib/components/toast';
